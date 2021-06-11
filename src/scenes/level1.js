@@ -35,7 +35,9 @@ class level1 extends Phaser.Scene {
         this.player = new Player(this, game.config.width/2, game.config.height/2, 'square', 0);
         this.player.setScale(playerScale);
 
-        // initiallizing camera
+        // initializing camera
+        this.cameras.main.setBounds(0, 0, gameWidth, gameHeight);
+        this.cameras.main.startFollow(this.player);
     }
 
     update(){

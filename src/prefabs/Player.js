@@ -42,6 +42,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             this.y = 0 + this.height * playerScale/2;
         }
 
+        // reseting velocity
         this.velocityX = 0;
         this.velocityY = 0;
 
