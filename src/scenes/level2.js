@@ -8,6 +8,7 @@ class level2 extends Phaser.Scene {
         this.load.tilemapTiledJSON('level2', './assets/tiledStuff/tm_level2Placeholder.json');
         // Tilesheets
         this.load.image('desert', './assets/tiledStuff/tm_placeholder.png');
+        this.load.image('collision', './assets/tilemap/tm_collision.png');
     }
 
     create(){
@@ -24,9 +25,12 @@ class level2 extends Phaser.Scene {
 
         // add a tileset to the map
         const tsDesert = map.addTilesetImage('tm_placeholder', 'desert');
+        const tsCollision = map.addTilesetImage('ts_collision', 'collision');
 
         // create tilemap layers
         const desertLayer = map.createLayer('desertLayer', tsDesert, 0, 0);
+        const CollisionLayer = map.createLayer('collisionLayer', tsCollision, 0, 0);
+        //CollisionLayer.alpha = 0;
 
         // adding objecterinos
         this.player = new Player(this, game.config.width/16, game.config.height/2, 'tut', 0);
