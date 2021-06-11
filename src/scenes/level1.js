@@ -6,8 +6,11 @@ class level1 extends Phaser.Scene {
     preload(){
         // loading sprites
         this.load.image('square', './assets/testAssets/greenSquare.png');
-        // Load Json file
+        this.load.atlas('tut', './assets/animations/anim_idle.png', './assets/animations/anim_idle.json');
+
+        // Load Json files
         this.load.tilemapTiledJSON('level1', './assets/tiledStuff/tm_level1Placeholder.json');
+        
         // Tilesheets
         this.load.image('desert', './assets/tiledStuff/tm_placeholder.png');
     }
@@ -21,6 +24,20 @@ class level1 extends Phaser.Scene {
         keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
         keyDOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
 
+        // creating animations
+        this.anims.create({
+            key: 'idle',
+            frames: this.anims.generateFrameNames('tut', {
+              start: 1,
+              end: 3,
+              zeroPad: 1,
+              prefix: 'idletut',
+              suffix: '.png'
+            }),
+            frameRate: 8,
+            repeat: -1
+        });
+
 
         //Create the tilemap
         const map = this.add.tilemap('level1');
@@ -32,13 +49,14 @@ class level1 extends Phaser.Scene {
         const desertLayer = map.createLayer('desertLayer', tsDesert, 0, 0);
 
         // adding objecterinos
-        this.player = new Player(this, game.config.width/2, game.config.height/2, 'square', 0);
+        this.player = new Player(this, game.config.width/2, game.config.height/2, 'tut', 0);
         this.player.setScale(playerScale);
+        this.player.play('idle');
 
         // initializing camera
         this.cameras.main.setBounds(0, 0, gameWidth, gameHeight);
         this.cameras.main.startFollow(this.player);
-        
+
         // Bool for scene transitions
         this.transitioning = false;
     }

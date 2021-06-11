@@ -17,7 +17,7 @@ let keyF, keyR, keyLEFT, keyRIGHT, keyUP, keyDOWN;
 // gameplay variables
 
 // graphics variables
-let playerScale = 0.05;
+let playerScale = 0.5;
 let gameWidth = 3200;
 let gameHeight = 2400;
 
