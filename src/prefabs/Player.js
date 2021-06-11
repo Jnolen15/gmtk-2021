@@ -7,33 +7,20 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         // Add physics
         scene.physics.add.existing(this);
 
+        // variables
+        this.scene = scene;
         this.moveSpeed = 8;
         this.diagonalMoveSpeed = Math.round(Math.sqrt(this.moveSpeed ** 2 / 2));
         this.velocityX = 0;
         this.velocityY = 0;
 
         // --- Setting Up Connector
-        this.arraySquareSize = 5; // needs to be an odd number
-        this.arraySpacing = 50; // in pixels
-        
         // create array of sprite positions
         this.posArray = [];
-        this.playerBasePos = {
-            x: x,
-            y: y
-        }
-        let halfSize = Phaser.Math.CeilTo(this.arraySquareSize/2);
-        for(let i = 1; i <= this.arraySquareSize; i++) {
-            for(let j = 1; j <= this.arraySquareSize; j++) {
-                let basePos = {
-                    x: i*this.arraySpacing + x - halfSize * this.arraySpacing,
-                    y: j*this.arraySpacing + y - halfSize * this.arraySpacing
-                }
-                let currSpritePos = scene.add.image(
-                    basePos.x, basePos.y, 'testPosMarkers').setScale(.01);
-                this.posArray.push({sprite: currSpritePos, basePosition: basePos});
-            }
-        }
+        this.playerBasePos;
+        this.setupPosArray(5, 50);
+
+        this.keyM = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.M);
     }
 
 
@@ -50,7 +37,12 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         if (keyUP.isDown) {
             this.velocityY -= this.moveSpeed;
         }
-        
+
+        // TEST
+        if (Phaser.Input.Keyboard.JustDown(this.keyM)) {
+            this.setupPosArray(5, 30);
+        }
+
         // adjusting for diagonal movement
         if (Math.abs(this.velocityX) > 0 && Math.abs(this.velocityY) > 0) {
             if (this.velocityX > 0) {
@@ -88,6 +80,30 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         
 
         this.movePosArray();
+    }
+
+    setupPosArray(arraySquareSize, spacing) {
+        // Delete the old array if it exists
+        for (let i = 0; i < this.posArray.length; i++) {
+            this.posArray[i].sprite.destroy();
+        }
+        this.posArray.splice(0, this.posArray.length);
+        // Create new array
+        this.playerBasePos = {
+            x: this.x,
+            y: this.y
+        }
+        let halfSize = Phaser.Math.CeilTo(arraySquareSize/2);
+        for(let i = 1; i <= arraySquareSize; i++) {
+            for(let j = 1; j <= arraySquareSize; j++) {
+                let basePos = {
+                    x: i*spacing + this.playerBasePos.x - halfSize * spacing,
+                    y: j*spacing + this.playerBasePos.y - halfSize * spacing
+                }
+                let currSpritePos = this.scene.add.image(basePos.x, basePos.y, 'testPosMarkers').setScale(.01);
+                this.posArray.push({sprite: currSpritePos, basePosition: basePos});
+            }
+        }
     }
 
     movePosArray() {
