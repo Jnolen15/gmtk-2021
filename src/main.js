@@ -5,7 +5,7 @@ let config = {
     scale: {
         autoCenter: Phaser.Scale.CENTER_BOTH,
     },
-    scene: [],
+    scene: [level1],
 }
 
 //define game
