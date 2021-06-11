@@ -18,7 +18,7 @@ class level2 extends Phaser.Scene {
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
         keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
         keyDOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
-        
+
         //Create the tilemap
         const map = this.add.tilemap('level2');
 
@@ -31,6 +31,10 @@ class level2 extends Phaser.Scene {
         // adding objecterinos
         this.player = new Player(this, game.config.width/16, game.config.height/2, 'square', 0);
         this.player.setScale(playerScale);
+
+        // initializing camera
+        this.cameras.main.setBounds(0, 0, gameWidth, gameHeight);
+        this.cameras.main.startFollow(this.player);
 
         // Fade in Scene
         this.cameras.main.fadeIn(500, 0, 0, 0);

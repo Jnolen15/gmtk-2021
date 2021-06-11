@@ -38,6 +38,7 @@ class level1 extends Phaser.Scene {
         // initializing camera
         this.cameras.main.setBounds(0, 0, gameWidth, gameHeight);
         this.cameras.main.startFollow(this.player);
+        
         // Bool for scene transitions
         this.transitioning = false;
     }
