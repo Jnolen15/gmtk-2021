@@ -25,7 +25,14 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             this.velocityY = this.moveSpeed * -1;
         }
         
+        // adjusting for diagonal movement
+        if (Math.abs(this.velocityX) > 0 && Math.abs(this.velocityY) > 0) {
+            this.velocityX /= 2;
+            this.velocityY /= 2;
+        }
+        
 
+        // applying velocity to position
         this.x += this.velocityX;
         this.y += this.velocityY;
 
@@ -42,7 +49,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             this.y = 0 + this.height * playerScale/2;
         }
 
-        // reseting velocity
+        // resetting velocity
         this.velocityX = 0;
         this.velocityY = 0;
 
