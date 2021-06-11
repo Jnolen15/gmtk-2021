@@ -31,6 +31,7 @@ class level2 extends Phaser.Scene {
         // adding objecterinos
         this.player = new Player(this, game.config.width/16, game.config.height/2, 'tut', 0);
         this.player.setScale(playerScale);
+        this.player.play('idle');
 
         // initializing camera
         this.cameras.main.setBounds(0, 0, gameWidth, gameHeight);

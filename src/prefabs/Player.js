@@ -6,6 +6,9 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         scene.add.existing(this);
 
         this.moveSpeed = 8;
+        this.diagonalMoveSpeed = Math.round(Math.sqrt(this.moveSpeed ** 2 / 2));
+        this.velocityX = 0;
+        this.velocityY = 0;
 
         // --- Setting Up Connector
         this.arraySquareSize = 5; // needs to be an odd number
@@ -29,9 +32,6 @@ class Player extends Phaser.Physics.Arcade.Sprite {
                 this.posArray.push({sprite: currSpritePos, basePosition: basePos});
             }
         }
-        this.diagonalMoveSpeed = Math.round(Math.sqrt(this.moveSpeed ** 2 / 2));
-        this.velocityX = 0;
-        this.velocityY = 0;
     }
 
 
@@ -62,6 +62,27 @@ class Player extends Phaser.Physics.Arcade.Sprite {
                 this.velocityY = this.diagonalMoveSpeed * -1;
             }
         }
+
+        // applying velocity
+        this.x += this.velocityX;
+        this.y += this.velocityY;
+
+        // resetting velocity
+        this.velocityX = 0;
+        this.velocityY = 0;
+
+        // limiting movement to stage size
+        if (this.x > game.config.width - this.width * playerScale/2) {
+            this.x = game.config.width - this.width * playerScale/2;
+        } else if (this.x < 0 + this.width * playerScale/2) {
+            this.x = 0 + this.width * playerScale/2;
+        }
+        if (this.y > game.config.height - this.height * playerScale/2) {
+            this.y = game.config.height - this.height * playerScale/2;
+        } else if (this.y < 0 + this.height * playerScale/2) {
+            this.y = 0 + this.height * playerScale/2;
+        }
+
         
 
         this.movePosArray();
