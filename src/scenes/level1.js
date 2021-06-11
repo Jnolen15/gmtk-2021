@@ -56,11 +56,12 @@ class level1 extends Phaser.Scene {
         // Bool for scene transitions
         this.transitioning = false;
 
-        this.CollisionLayer.layer.data.forEach((row) => { // here we are iterating through each tile.
+        // leave this in for finding indexes of tiles
+        /*this.CollisionLayer.layer.data.forEach((row) => { // here we are iterating through each tile.
 			row.forEach((Tile) => {
                 console.log(Tile.index);
 			})
-		});
+		});*/
     }
 
     update(){
@@ -72,9 +73,9 @@ class level1 extends Phaser.Scene {
         this.tut4.update(this.player.x, this.player.y);
 
 
-        this.tile = this.CollisionLayer.getTileAtWorldXY(this.player.x, this.player.y);
+        if(!this.transitioning) this.tile = this.CollisionLayer.getTileAtWorldXY(this.player.x, this.player.y);
         if(this.tile != null){
-            console.log("Above Pit");
+            //console.log("Above Pit");
         }
 
         // Transition to next scene if player is on right of screen
@@ -84,9 +85,10 @@ class level1 extends Phaser.Scene {
                 console.log("Past");
                 //this.scene.transition({ target: 'level2Scene', duration: 2000 });
                 this.cameras.main.fadeOut(500, 0, 0, 0);
-    
+
                 this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
                     //this.scene.start('phaser-logo')
+                    this.scene.stop();
                     this.scene.transition({ target: 'level2Scene', duration: 2000 });
                 })
             }
