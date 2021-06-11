@@ -24,9 +24,6 @@ class level1 extends Phaser.Scene {
         keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
         keyDOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
 
-        
-
-
         //Create the tilemap
         const map = this.add.tilemap('level1');
 
@@ -51,20 +48,21 @@ class level1 extends Phaser.Scene {
         // Bool for scene transitions
         this.transitioning = false;
 
-        this.CollisionLayer.layer.data.forEach((row) => { // here we are iterating through each tile.
+        // leave this in for finding indexes of tiles
+        /*this.CollisionLayer.layer.data.forEach((row) => { // here we are iterating through each tile.
 			row.forEach((Tile) => {
                 console.log(Tile.index);
 			})
-		});
+		});*/
     }
 
     update(){
         // updating objects
         this.player.update();
 
-        this.tile = this.CollisionLayer.getTileAtWorldXY(this.player.x, this.player.y);
+        if(!this.transitioning) this.tile = this.CollisionLayer.getTileAtWorldXY(this.player.x, this.player.y);
         if(this.tile != null){
-            console.log("Above Pit");
+            //console.log("Above Pit");
         }
 
         // Transition to next scene if player is on right of screen
@@ -74,9 +72,10 @@ class level1 extends Phaser.Scene {
                 console.log("Past");
                 //this.scene.transition({ target: 'level2Scene', duration: 2000 });
                 this.cameras.main.fadeOut(500, 0, 0, 0);
-    
+
                 this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
                     //this.scene.start('phaser-logo')
+                    this.scene.stop();
                     this.scene.transition({ target: 'level2Scene', duration: 2000 });
                 })
             }
