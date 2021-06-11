@@ -4,6 +4,8 @@ class level1 extends Phaser.Scene {
     }
 
     preload(){
+        // loading sprites
+        this.load.image('square', './assets/testAssets/greenSquare.png');
         // Load Json file
         this.load.tilemapTiledJSON('level1', './assets/tiledStuff/tm_level1Placeholder.json');
         // Tilesheets
@@ -30,11 +32,15 @@ class level1 extends Phaser.Scene {
         const desertLayer = map.createLayer('desertLayer', tsDesert, 0, 0);
 
         // adding objecterinos
-        this.player = new Player(this, game.config.width/2, game.config.height/2, '', 0);
-
+        this.player = new Player(this, game.config.width/2, game.config.height/2, 'square', 0);
+        this.player.setDepth(2);
+        this.player.setScale(0.05);
     }
 
     update(){
+        // updating objects
+        this.player.update();
+
         if(Phaser.Input.Keyboard.JustDown(keyF)){
             console.log("Pressed W");
             //this.scene.transition({ target: 'level2Scene', duration: 2000 });
