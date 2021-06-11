@@ -13,16 +13,16 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
     update() {
         if (keyRIGHT.isDown) {
-            this.velocityX = this.moveSpeed;
+            this.velocityX += this.moveSpeed;
         }
         if (keyLEFT.isDown) {
-            this.velocityX = this.moveSpeed* -1 ;
+            this.velocityX -= this.moveSpeed;
         }
         if (keyDOWN.isDown) {
-            this.velocityY = this.moveSpeed;
+            this.velocityY += this.moveSpeed;
         }
         if (keyUP.isDown) {
-            this.velocityY = this.moveSpeed * -1;
+            this.velocityY -= this.moveSpeed;
         }
         
         // adjusting for diagonal movement
