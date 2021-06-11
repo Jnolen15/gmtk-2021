@@ -6,7 +6,6 @@ class level1 extends Phaser.Scene {
     preload(){
         // loading sprites
         this.load.image('square', './assets/testAssets/greenSquare.png');
-        this.load.atlas('tut', './assets/animations/anim_idle.png', './assets/animations/anim_idle.json');
 
         // Load Json files
         this.load.tilemapTiledJSON('level1', './assets/tiledStuff/tm_level1Placeholder.json');
@@ -24,19 +23,7 @@ class level1 extends Phaser.Scene {
         keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
         keyDOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
 
-        // creating animations
-        this.anims.create({
-            key: 'idle',
-            frames: this.anims.generateFrameNames('tut', {
-              start: 1,
-              end: 3,
-              zeroPad: 1,
-              prefix: 'idletut',
-              suffix: '.png'
-            }),
-            frameRate: 8,
-            repeat: -1
-        });
+        
 
 
         //Create the tilemap
@@ -67,7 +54,7 @@ class level1 extends Phaser.Scene {
 
         
         if(!this.transitioning){
-            if(this.player.x > game.config.width - 25){
+            if(this.player.x > game.config.width - this.player.width * playerScale){
                 this.transitioning = true;
                 console.log("Past");
                 //this.scene.transition({ target: 'level2Scene', duration: 2000 });
