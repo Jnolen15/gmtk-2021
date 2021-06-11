@@ -24,9 +24,6 @@ class level1 extends Phaser.Scene {
         keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
         keyDOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
 
-        
-
-
         //Create the tilemap
         const map = this.add.tilemap('level1');
 
@@ -40,9 +37,17 @@ class level1 extends Phaser.Scene {
         //CollisionLayer.alpha = 0;
 
         // adding objecterinos
-        this.player = new Player(this, game.config.width/2, game.config.height/2, 'tut', 0);
-        this.player.setScale(playerScale);
+        this.player = new Player(this, game.config.width/2, game.config.height/2, 'tut', 0).setScale(playerScale);
+        this.player.setSize(this.player.width/2, this.player.height/2);
         this.player.play('idle');
+
+        
+        this.tut1 = new Tut(this, game.config.width/4, game.config.height/4, 'tut', 0).setScale(playerScale);
+        this.tut2 = new Tut(this, game.config.width*3/4, game.config.height/4, 'tut', 0).setScale(playerScale);
+        this.tut3 = new Tut(this, game.config.width/4, game.config.height*3/4, 'tut', 0).setScale(playerScale);
+        this.tut4 = new Tut(this, game.config.width*3/4, game.config.height*3/4, 'tut', 0).setScale(playerScale);
+        this.tutGroup = this.physics.add.group();
+        this.tutGroup.addMultiple(this.tut1, this.tut2, this.tut3, this.tut4);
 
         // initializing camera
         this.cameras.main.setBounds(0, 0, gameWidth, gameHeight);
@@ -61,6 +66,11 @@ class level1 extends Phaser.Scene {
     update(){
         // updating objects
         this.player.update();
+        this.tut1.update(this.player.x, this.player.y);
+        this.tut2.update(this.player.x, this.player.y);
+        this.tut3.update(this.player.x, this.player.y);
+        this.tut4.update(this.player.x, this.player.y);
+
 
         this.tile = this.CollisionLayer.getTileAtWorldXY(this.player.x, this.player.y);
         if(this.tile != null){
@@ -80,6 +90,22 @@ class level1 extends Phaser.Scene {
                     this.scene.transition({ target: 'level2Scene', duration: 2000 });
                 })
             }
+        }
+
+        // collision handling
+        this.physics.collide(this.player, this.tutGroup);
+        this.physics.collide(this.tutGroup, this.tutGroup);
+        if (this.physics.collide(this.player, this.tut1)) {
+            this.tut1.follow = true;
+        }
+        if (this.physics.collide(this.player, this.tut2)) {
+            this.tut2.follow = true;
+        }
+        if (this.physics.collide(this.player, this.tut3)) {
+            this.tut3.follow = true;
+        }
+        if (this.physics.collide(this.player, this.tut4)) {
+            this.tut4.follow = true;
         }
     }
 }

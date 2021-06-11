@@ -7,7 +7,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         // Add physics
         scene.physics.add.existing(this);
 
-        this.moveSpeed = 8;
+        this.moveSpeed = 400;
         this.diagonalMoveSpeed = Math.round(Math.sqrt(this.moveSpeed ** 2 / 2));
         this.velocityX = 0;
         this.velocityY = 0;
@@ -51,6 +51,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             this.velocityY -= this.moveSpeed;
         }
         
+        
         // adjusting for diagonal movement
         if (Math.abs(this.velocityX) > 0 && Math.abs(this.velocityY) > 0) {
             if (this.velocityX > 0) {
@@ -66,22 +67,22 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         }
 
         // applying velocity
-        this.x += this.velocityX;
-        this.y += this.velocityY;
+        this.setVelocityX(this.velocityX);
+        this.setVelocityY(this.velocityY);
 
         // resetting velocity
         this.velocityX = 0;
         this.velocityY = 0;
 
         // limiting movement to stage size
-        if (this.x > game.config.width - this.width * playerScale/2) {
+        if (this.x >= game.config.width - this.width * playerScale/2) {
             this.x = game.config.width - this.width * playerScale/2;
-        } else if (this.x < 0 + this.width * playerScale/2) {
-            this.x = 0 + this.width * playerScale/2;
+        } else if (this.x <= 0 + this.width * playerScale/2) {
+            this.setVelocityX(this.velocityX);
         }
-        if (this.y > game.config.height - this.height * playerScale/2) {
+        if (this.y >= game.config.height - this.height * playerScale/2) {
             this.y = game.config.height - this.height * playerScale/2;
-        } else if (this.y < 0 + this.height * playerScale/2) {
+        } else if (this.y <= 0 + this.height * playerScale/2) {
             this.y = 0 + this.height * playerScale/2;
         }
 
