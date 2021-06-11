@@ -6,6 +6,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         scene.add.existing(this);
 
         this.moveSpeed = 8;
+        this.diagonalMoveSpeed = Math.round(Math.sqrt(this.moveSpeed ** 2 / 2));
         this.velocityX = 0;
         this.velocityY = 0;
     }
@@ -28,14 +29,14 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         // adjusting for diagonal movement
         if (Math.abs(this.velocityX) > 0 && Math.abs(this.velocityY) > 0) {
             if (this.velocityX > 0) {
-                this.velocityX = Math.sqrt(this.moveSpeed ** 2 / 2);
+                this.velocityX = this.diagonalMoveSpeed;
             } else {
-                this.velocityX = Math.sqrt(this.moveSpeed ** 2 / 2) * -1;
+                this.velocityX = this.diagonalMoveSpeed * -1;
             }
             if (this.velocityY > 0) {
-                this.velocityY = Math.sqrt(this.moveSpeed ** 2 / 2);
+                this.velocityY = this.diagonalMoveSpeed;
             } else {
-                this.velocityY = Math.sqrt(this.moveSpeed ** 2 / 2) * -1;
+                this.velocityY = this.diagonalMoveSpeed * -1;
             }
         }
         
