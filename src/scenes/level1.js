@@ -20,5 +20,14 @@ class level1 extends Phaser.Scene {
         // create tilemap layers
         const desertLayer = map.createLayer('desertLayer', tsDesert, 0, 0);
 
+        // Scene Transition
+        this.keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+    }
+
+    update(){
+        if(Phaser.Input.Keyboard.JustDown(this.keyW)){
+            console.log("Pressed W");
+            this.scene.transition({ target: 'level2Scene', duration: 2000 });
+        }
     }
 }
