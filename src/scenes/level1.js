@@ -29,6 +29,9 @@ class level1 extends Phaser.Scene {
         // create tilemap layers
         const desertLayer = map.createLayer('desertLayer', tsDesert, 0, 0);
 
+        // adding objecterinos
+        this.player = new Player(this, game.config.width/2, game.config.height/2, '', 0);
+
     }
 
     update(){
