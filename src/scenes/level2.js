@@ -28,8 +28,17 @@ class level2 extends Phaser.Scene {
         // create tilemap layers
         const desertLayer = map.createLayer('desertLayer', tsDesert, 0, 0);
 
+        // adding objecterinos
+        this.player = new Player(this, game.config.width/16, game.config.height/2, 'square', 0);
+        this.player.setScale(playerScale);
+
         // Fade in Scene
         this.cameras.main.fadeIn(500, 0, 0, 0);
 
+    }
+
+    update(){
+        // updating objects
+        this.player.update();
     }
 }
