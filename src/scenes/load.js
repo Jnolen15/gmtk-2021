@@ -4,11 +4,10 @@ class load extends Phaser.Scene {
     }
 
     preload(){
-        
+        this.load.image('testPlayer', './assets/testAssets/greenSquare.png');
     }
 
     create(){
-
         // Start scene
         this.scene.start('level1Scene');
     }
