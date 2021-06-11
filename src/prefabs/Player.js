@@ -4,6 +4,8 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         
         // add object to scene
         scene.add.existing(this);
+        // Add physics
+        scene.physics.add.existing(this);
 
         this.moveSpeed = 8;
         this.diagonalMoveSpeed = Math.round(Math.sqrt(this.moveSpeed ** 2 / 2));
