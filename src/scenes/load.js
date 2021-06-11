@@ -5,6 +5,7 @@ class load extends Phaser.Scene {
 
     preload(){
         this.load.image('testPlayer', './assets/testAssets/greenSquare.png');
+        this.load.image('testPosMarkers', './assets/testAssets/blueSquare.png');
     }
 
     create(){
