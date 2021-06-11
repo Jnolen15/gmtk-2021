@@ -27,7 +27,13 @@ class level1 extends Phaser.Scene {
     update(){
         if(Phaser.Input.Keyboard.JustDown(this.keyW)){
             console.log("Pressed W");
-            this.scene.transition({ target: 'level2Scene', duration: 2000 });
+            //this.scene.transition({ target: 'level2Scene', duration: 2000 });
+            this.cameras.main.fadeOut(500, 0, 0, 0)
+
+            this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
+                //this.scene.start('phaser-logo')
+                this.scene.transition({ target: 'level2Scene', duration: 2000 });
+            })
         }
     }
 }
