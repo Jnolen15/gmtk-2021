@@ -35,22 +35,27 @@ class level1 extends Phaser.Scene {
         this.player = new Player(this, game.config.width/2, game.config.height/2, 'square', 0);
         this.player.setScale(playerScale);
 
-        // initiallizing camera
+        // Bool for scene transitions
+        this.transitioning = false;
     }
 
     update(){
         // updating objects
         this.player.update();
 
-        if(Phaser.Input.Keyboard.JustDown(keyF)){
-            console.log("Pressed W");
-            //this.scene.transition({ target: 'level2Scene', duration: 2000 });
-            this.cameras.main.fadeOut(500, 0, 0, 0)
-
-            this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
-                //this.scene.start('phaser-logo')
-                this.scene.transition({ target: 'level2Scene', duration: 2000 });
-            })
+        
+        if(!this.transitioning){
+            if(this.player.x > game.config.width - 25){
+                this.transitioning = true;
+                console.log("Past");
+                //this.scene.transition({ target: 'level2Scene', duration: 2000 });
+                this.cameras.main.fadeOut(500, 0, 0, 0)
+    
+                this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
+                    //this.scene.start('phaser-logo')
+                    this.scene.transition({ target: 'level2Scene', duration: 2000 });
+                })
+            }
         }
     }
 }
