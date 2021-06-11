@@ -10,3 +10,11 @@ let config = {
 
 //define game
 let game = new Phaser.Game(config);
+
+// defining keys
+let keyF, keyR, keyLEFT, keyRIGHT, keyUP, keyDOWN;
+
+// gameplay variables
+
+// Volume variables
+let volumeMultiplier = 1;
