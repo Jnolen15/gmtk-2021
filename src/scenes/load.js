@@ -4,8 +4,7 @@ class load extends Phaser.Scene {
     }
 
     preload(){
-        // Tilesheets
-        this.load.image('desert', './assets/tiledStuff/tm_placeholder.png');
+        
     }
 
     create(){

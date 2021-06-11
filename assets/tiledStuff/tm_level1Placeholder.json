@@ -1,4 +1,12 @@
 { "compressionlevel":-1,
+ "editorsettings":
+    {
+     "export":
+        {
+         "format":"json",
+         "target":"tm_level1Placeholder.json"
+        }
+    },
  "height":24,
  "infinite":false,
  "layers":[
@@ -8,7 +16,7 @@
          "encoding":"base64",
          "height":24,
          "id":1,
-         "name":"Tile Layer 1",
+         "name":"desertLayer",
          "opacity":1,
          "type":"tilelayer",
          "visible":true,
