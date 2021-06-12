@@ -15,9 +15,9 @@ G
     update(targetX, targetY) {
         this.distance = Phaser.Math.Distance.Between(this.x, this.y, targetX, targetY);
         if (this.distance >= 100) {
-            this.moveSpeed = 150;
+            this.moveSpeed = 250;
         } else if (this.distance >= 1){
-            this.moveSpeed = 100;
+            this.moveSpeed = 150;
         } else {
             this.moveSpeed = 0;
         }
