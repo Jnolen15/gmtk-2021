@@ -23,7 +23,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         // connector Grid settings
         this.gridSize = 9; // square grid = gridSize * gridSize
         this.squareSpacing = 50;
-        this.lineSpacing = 15;
+        this.lineSpacing = 30;
         this.currRotation = 0;
         // create array of sprite positions
         this.posArray = [];
@@ -68,11 +68,11 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             }
         }
 
-        if (Phaser.Input.Keyboard.JustDown(this.keyN)) {
-            this.currRotation += .1;
+        if (this.keyN.isDown) {
+            this.currRotation += .00008 * 180*Math.PI;
         }
-        if (Phaser.Input.Keyboard.JustDown(this.keyB)) {
-            this.currRotation -= .1;
+        if (this.keyB.isDown) {
+            this.currRotation -= .00008 * 180*Math.PI;
         }
         if (Phaser.Input.Keyboard.JustDown(this.keyG)) {
             console.log(this.birdGroup.length);
