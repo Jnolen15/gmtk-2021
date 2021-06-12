@@ -11,7 +11,7 @@ class level1 extends Phaser.Scene {
         this.load.tilemapTiledJSON('level1', './assets/tiledStuff/tm_level1Placeholder.json');
         
         // Tilesheets
-        this.load.image('desert', './assets/tiledStuff/tm_placeholder.png');
+        this.load.image('desert', './assets/tiledStuff/ts_desert.png');
         this.load.image('collision', './assets/tiledStuff/tm_collision.png');
     }
 
@@ -28,16 +28,16 @@ class level1 extends Phaser.Scene {
         const map = this.add.tilemap('level1');
 
         // add a tileset to the map
-        const tsDesert = map.addTilesetImage('tm_placeholder', 'desert');
+        const tsDesert = map.addTilesetImage('ts_desert', 'desert');
         const tsCollision = map.addTilesetImage('tm_collision', 'collision');
 
         // create tilemap layers
         this.desertLayer = map.createLayer('desertLayer', tsDesert, 0, 0);
         this.CollisionLayer = map.createLayer('collisionLayer', tsCollision, 0, 0);
-        //CollisionLayer.alpha = 0;
+        this.CollisionLayer.alpha = 0;
 
         // adding objecterinos
-        this.player = new Player(this, game.config.width/2, game.config.height/2, 'leadTut', 0).setScale(playerScale);
+        this.player = new Player(this, game.config.width/8, game.config.height/2, 'leadTut', 0).setScale(playerScale);
         this.player.setSize(this.player.width/2, this.player.height/2);
         this.player.body.setImmovable();
         this.player.play('leadidle');
@@ -77,9 +77,23 @@ class level1 extends Phaser.Scene {
         // this.tut4.update(this.player.x, this.player.y);
 
 
-        if(!this.transitioning) this.tile = this.CollisionLayer.getTileAtWorldXY(this.player.x, this.player.y);
-        if(this.tile != null){
-            //console.log("Above Pit");
+        // Player death if overa pit
+        if(!this.transitioning && !this.player.dead) this.tile = this.CollisionLayer.getTileAtWorldXY(this.player.x, this.player.y+20);
+        if(this.tile != null && !this.player.dead){
+            console.log("Above Pit");
+            console.log("Tile X: " + this.tile.x*25 + " Tile Y: " + this.tile.y*25);
+            this.player.dead = true;
+            this.player.x = this.tile.x * 25; this.player.y = this.tile.y * 25;
+            this.tweens.add({ 
+                targets: this.player, 
+                scale: 0,
+                rotation: 8,
+                ease: 'Sine.easeOut', 
+                duration: 600,
+            });
+            this.time.delayedCall(650, ()=>{
+                this.scene.restart();
+            });
         }
 
         // Transition to next scene if player is on right of screen
