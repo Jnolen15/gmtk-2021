@@ -83,8 +83,8 @@ class level1 extends Phaser.Scene {
         }
 
         // Transition to next scene if player is on right of screen
-        if(!this.transitioning){
-            if(this.player.x > game.config.width - this.player.width * playerScale){
+        if(!this.transitioning) {
+            if(this.player.x > game.config.width - this.player.width * playerScale * 0.5){
                 this.transitioning = true;
                 console.log("Past");
                 //this.scene.transition({ target: 'level2Scene', duration: 2000 });
@@ -105,7 +105,11 @@ class level1 extends Phaser.Scene {
         this.tut3.body.collideWorldBounds = true;
         this.tut4.body.collideWorldBounds = true;
         this.physics.collide(this.player, this.tutGroup);
-        this.physics.collide(this.tutGroup, this.tutGroup);
+        this.physics.collide(this.tut1, this.tut2);
+        this.physics.collide(this.tut1, this.tut3);
+        this.physics.collide(this.tut1, this.tut4);
+        this.physics.collide(this.tut2, this.tut3);
+        this.physics.collide(this.tut2, this.tut4);
         if (this.physics.collide(this.player, this.tut1)) {
             this.tut1.follow = true;
         }
