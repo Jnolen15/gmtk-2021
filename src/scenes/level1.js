@@ -104,25 +104,25 @@ class level1 extends Phaser.Scene {
         this.tut2.body.collideWorldBounds = true;
         this.tut3.body.collideWorldBounds = true;
         this.tut4.body.collideWorldBounds = true;
-        this.physics.collide(this.player, this.tutGroup);
-        this.physics.collide(this.tut1, this.tut2);
-        this.physics.collide(this.tut1, this.tut3);
-        this.physics.collide(this.tut1, this.tut4);
-        this.physics.collide(this.tut2, this.tut3);
-        this.physics.collide(this.tut2, this.tut4);
-        if (this.physics.collide(this.player, this.tut1) && !this.tut1.follow) {
+        // this.physics.collide(this.player, this.tutGroup);
+        // this.physics.collide(this.tut1, this.tut2);
+        // this.physics.collide(this.tut1, this.tut3);
+        // this.physics.collide(this.tut1, this.tut4);
+        // this.physics.collide(this.tut2, this.tut3);
+        // this.physics.collide(this.tut2, this.tut4);
+        if (this.physics.overlap(this.player, this.tut1) && !this.tut1.follow) {
             this.tut1.follow = true;
             this.player.birdGroup.push(this.tut1);
         }
-        if (this.physics.collide(this.player, this.tut2) && !this.tut2.follow) {
+        if (this.physics.overlap(this.player, this.tut2) && !this.tut2.follow) {
             this.tut2.follow = true;
             this.player.birdGroup.push(this.tut2);
         }
-        if (this.physics.collide(this.player, this.tut3) && !this.tut3.follow) {
+        if (this.physics.overlap(this.player, this.tut3) && !this.tut3.follow) {
             this.tut3.follow = true;
             this.player.birdGroup.push(this.tut3);
         }
-        if (this.physics.collide(this.player, this.tut4) && !this.tut4.follow) {
+        if (this.physics.overlap(this.player, this.tut4) && !this.tut4.follow) {
             this.tut4.follow = true;
             this.player.birdGroup.push(this.tut4);
         }

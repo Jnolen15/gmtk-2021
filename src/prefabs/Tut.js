@@ -10,14 +10,14 @@ class Tut extends Phaser.Physics.Arcade.Sprite {
         this.moveSpeed = 60;
         this.follow = false;
     }
+G
 
-
-    update(playerX, playerY) {
-        this.distance = Phaser.Math.Distance.Between(this.x, this.y, playerX, playerY);
+    update(targetX, targetY) {
+        this.distance = Phaser.Math.Distance.Between(this.x, this.y, targetX, targetY);
         if (this.distance >= 100) {
+            this.moveSpeed = 150;
+        } else if (this.distance >= 1){
             this.moveSpeed = 100;
-        } else if (this.distance >= 50){
-            this.moveSpeed = 30;
         } else {
             this.moveSpeed = 0;
         }
@@ -25,16 +25,16 @@ class Tut extends Phaser.Physics.Arcade.Sprite {
             if (!this.anims.isPlaying) {
                 this.play('idle');
             }
-            if (playerX > this.x + 1) {
+            if (targetX > this.x + 1) {
                 this.setVelocityX(this.moveSpeed);
-            } else if (playerX < this.x - 1) {
+            } else if (targetX < this.x - 10) {
                 this.setVelocityX(-this.moveSpeed); 
             } else {
                 this.setVelocityX(0)
             }
-            if (playerY > this.y + 1) {
+            if (targetY > this.y + 1) {
                 this.setVelocityY(this.moveSpeed);
-            } else if (playerY < this.y - 1) {
+            } else if (targetY < this.y - 10) {
                 this.setVelocityY(-this.moveSpeed); 
             } else {
                 this.setVelocityY(0);
