@@ -39,19 +39,23 @@ class level1 extends Phaser.Scene {
         // adding objecterinos
         this.player = new Player(this, game.config.width/2, game.config.height/2, 'tut', 0).setScale(playerScale);
         this.player.setSize(this.player.width/2, this.player.height/2);
+        this.player.body.setImmovable();
         this.player.play('idle');
 
-        
-        this.tut1 = new Tut(this, game.config.width/4, game.config.height/4, 'tut', 0).setScale(playerScale);
-        this.tut2 = new Tut(this, game.config.width*3/4, game.config.height/4, 'tut', 0).setScale(playerScale);
-        this.tut3 = new Tut(this, game.config.width/4, game.config.height*3/4, 'tut', 0).setScale(playerScale);
-        this.tut4 = new Tut(this, game.config.width*3/4, game.config.height*3/4, 'tut', 0).setScale(playerScale);
+        this.tut1 = new Tut(this, game.config.width/4, game.config.height/4, 'tut', 0).setScale(playerScale).setSize(this.player.width/2, this.player.height/2);
+        this.tut2 = new Tut(this, game.config.width*3/4, game.config.height/4, 'tut', 0).setScale(playerScale).setSize(this.player.width/2, this.player.height/2);
+        this.tut3 = new Tut(this, game.config.width/4, game.config.height*3/4, 'tut', 0).setScale(playerScale).setSize(this.player.width/2, this.player.height/2);
+        this.tut4 = new Tut(this, game.config.width*3/4, game.config.height*3/4, 'tut', 0).setScale(playerScale).setSize(this.player.width/2, this.player.height/2);
         this.tutGroup = this.physics.add.group();
         this.tutGroup.addMultiple(this.tut1, this.tut2, this.tut3, this.tut4);
 
-        // initializing camera
+        // initializing camera and boundries
+        this.physics.world.bounds.setTo(0, 0, gameWidth, gameHeight);
         this.cameras.main.setBounds(0, 0, gameWidth, gameHeight);
         this.cameras.main.startFollow(this.player);
+
+        
+        
 
         // Bool for scene transitions
         this.transitioning = false;
@@ -95,6 +99,11 @@ class level1 extends Phaser.Scene {
         }
 
         // collision handling
+        this.player.body.collideWorldBounds = true;
+        this.tut1.body.collideWorldBounds = true;
+        this.tut2.body.collideWorldBounds = true;
+        this.tut3.body.collideWorldBounds = true;
+        this.tut4.body.collideWorldBounds = true;
         this.physics.collide(this.player, this.tutGroup);
         this.physics.collide(this.tutGroup, this.tutGroup);
         if (this.physics.collide(this.player, this.tut1)) {

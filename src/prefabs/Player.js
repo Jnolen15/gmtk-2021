@@ -65,20 +65,6 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.velocityX = 0;
         this.velocityY = 0;
 
-        // limiting movement to stage size
-        if (this.x >= game.config.width - this.width * playerScale/2) {
-            this.x = game.config.width - this.width * playerScale/2;
-        } else if (this.x <= 0 + this.width * playerScale/2) {
-            this.setVelocityX(this.velocityX);
-        }
-        if (this.y >= game.config.height - this.height * playerScale/2) {
-            this.y = game.config.height - this.height * playerScale/2;
-        } else if (this.y <= 0 + this.height * playerScale/2) {
-            this.y = 0 + this.height * playerScale/2;
-        }
-
-        
-
         this.movePosArray();
     }
 

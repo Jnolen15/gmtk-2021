@@ -25,7 +25,7 @@ class load extends Phaser.Scene {
             frameRate: 8,
             repeat: -1
         });
-        
+
         // Start scene
         this.scene.start('level1Scene');
 
