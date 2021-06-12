@@ -196,6 +196,8 @@ class Player extends Phaser.Physics.Arcade.Sprite {
                 // remove the item if it's no longer active
                 this.birdGroup.splice(i, 1);
                 i--;
+            } else {
+                this.birdGroup[i].repositioning = true;
             }
         }
 
@@ -238,6 +240,14 @@ class Player extends Phaser.Physics.Arcade.Sprite {
                 yPos =  this.posArray[this.strawsFillOrder[i]].sprite.y;
             } else {
                 console.log("ERROR - Not a grid formation")
+            }
+
+            if (!this.birdGroup[i].repositioning) {
+                if (this.anims.getName() == 'leadwalk' && this.birdGroup[i].anims.getName() != "walk") {
+                    this.birdGroup[i].play('walk');
+                } else if (this.anims.getName() == 'leadidle' && this.birdGroup[i].anims.getName() != "idle") {
+                    this.birdGroup[i].play('idle');
+                }
             }
             
             this.birdGroup[i].update(xPos, yPos);

@@ -148,6 +148,7 @@ class level1 extends Phaser.Scene {
 
     createTut(xPos, yPos) {
         let newTut = new Tut(this, xPos, yPos, 'tut', 0).setScale(playerScale).setSize(this.player.width/2, this.player.height/2);
+        newTut.setOrigin(.5,.5);
         newTut.body.collideWorldBounds = true;
         this.tutGroup.add(newTut);
         this.tuts.push(newTut);
