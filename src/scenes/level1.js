@@ -4,9 +4,6 @@ class level1 extends Phaser.Scene {
     }
 
     preload(){
-        // loading sprites
-        this.load.image('square', './assets/testAssets/greenSquare.png');
-
         // Load Json files
         this.load.tilemapTiledJSON('level1', './assets/tiledStuff/tm_level1.json');
         
@@ -47,7 +44,6 @@ class level1 extends Phaser.Scene {
         this.player.body.collideWorldBounds = true;
         this.player.play('leadidle');
 
-        // adding tuts
         // Adding tuts
         this.tuts = [];
         this.tutGroup = this.physics.add.group();
@@ -66,9 +62,6 @@ class level1 extends Phaser.Scene {
         this.cameras.main.setBounds(0, 0, gameWidth, gameHeight);
         this.cameras.main.startFollow(this.player);
 
-        
-        
-
         // Bool for scene transitions
         this.transitioning = false;
 
@@ -83,48 +76,10 @@ class level1 extends Phaser.Scene {
     update(){
         // updating objects
         this.player.update();
-        // this.tut1.update(this.player.x, this.player.y);
-        // this.tut2.update(this.player.x, this.player.y);
-        // this.tut3.update(this.player.x, this.player.y);
-        // this.tut4.update(this.player.x, this.player.y);
-
-
-        // Player death if over a pit
-        if(!this.transitioning && !this.player.dead) this.tile = this.CollisionLayer.getTileAtWorldXY(this.player.x, this.player.y+20);
-        if(this.tile != null && !this.player.dead){
-            console.log("Above Pit");
-            console.log("Tile X: " + this.tile.x*25 + " Tile Y: " + this.tile.y*25);
-            this.player.dead = true;
-            this.player.x = this.tile.x * 25; this.player.y = this.tile.y * 25;
-            this.tweens.add({ 
-                targets: this.player, 
-                scale: 0,
-                rotation: 8,
-                ease: 'Sine.easeOut', 
-                duration: 600,
-            });
-            this.time.delayedCall(650, ()=>{
-                this.scene.restart();
-            });
-        }
-
-        // Tut death if over a pit
-        for(let i = 0; i < this.player.birdGroup.length; i++) {
-            if(!this.transitioning && !this.player.birdGroup[i].dead) this.tile = this.CollisionLayer.getTileAtWorldXY(this.player.birdGroup[i].x, this.player.birdGroup[i].y+20);
-            if(this.tile != null && !this.player.birdGroup[i].dead){
-                console.log("Tut " + i + " fell into a pit!");
-                this.player.birdGroup[i].dead = true;
-                this.player.birdGroup[i].moveSpeed = 0;
-                this.player.birdGroup[i].x = this.tile.x * 25; this.player.birdGroup[i].y = this.tile.y * 25;
-                this.tweens.add({ 
-                    targets: this.player.birdGroup[i], 
-                    scale: 0,
-                    rotation: 8,
-                    ease: 'Sine.easeOut', 
-                    duration: 600,
-                });
-            }
-        }
+        // check for player death if over a pit
+        this.playerDeathCheck();
+        // check for tut death if over a pit
+        this.tutDeathCheck();
 
         // Transition to next scene if player is on right of screen
         if(!this.transitioning) {
@@ -160,6 +115,47 @@ class level1 extends Phaser.Scene {
             if(this.physics.overlap(this.player, this.tuts[i]) && !this.tuts[i].follow) {
                 this.tuts[i].follow = true;
                 this.player.birdGroup.push(this.tuts[i]);
+            }
+        }
+    }
+
+    playerDeathCheck(){
+        // Player death if over a pit
+        if(!this.transitioning && !this.player.dead) this.tile = this.CollisionLayer.getTileAtWorldXY(this.player.x, this.player.y+20);
+        if(this.tile != null && !this.player.dead){
+            console.log("Above Pit");
+            console.log("Tile X: " + this.tile.x*25 + " Tile Y: " + this.tile.y*25);
+            this.player.dead = true;
+            this.player.x = this.tile.x * 25; this.player.y = this.tile.y * 25;
+            this.tweens.add({ 
+                targets: this.player, 
+                scale: 0,
+                rotation: 8,
+                ease: 'Sine.easeOut', 
+                duration: 600,
+            });
+            this.time.delayedCall(650, ()=>{
+                this.scene.restart();
+            });
+        }
+    }
+
+    tutDeathCheck(){
+        // Tut death if over a pit
+        for(let i = 0; i < this.player.birdGroup.length; i++) {
+            if(!this.transitioning && !this.player.birdGroup[i].dead) this.tile = this.CollisionLayer.getTileAtWorldXY(this.player.birdGroup[i].x, this.player.birdGroup[i].y+20);
+            if(this.tile != null && !this.player.birdGroup[i].dead){
+                console.log("Tut " + i + " fell into a pit!");
+                this.player.birdGroup[i].dead = true;
+                this.player.birdGroup[i].moveSpeed = 0;
+                this.player.birdGroup[i].x = this.tile.x * 25; this.player.birdGroup[i].y = this.tile.y * 25;
+                this.tweens.add({ 
+                    targets: this.player.birdGroup[i], 
+                    scale: 0,
+                    rotation: 8,
+                    ease: 'Sine.easeOut', 
+                    duration: 600,
+                });
             }
         }
     }
