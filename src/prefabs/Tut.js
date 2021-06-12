@@ -9,8 +9,8 @@ class Tut extends Phaser.Physics.Arcade.Sprite {
 
         this.moveSpeed = 60;
         this.follow = false;
+        this.dead = false;
     }
-G
 
     update(targetX, targetY) {
         // setting speed based on distance to target
@@ -18,26 +18,49 @@ G
         this.moveSpeed = 300 * this.inverseLerp(this.distance, 1, 100);
 
         // setting velocity based on relative position to target
-        if (this.follow) {
-            if (!this.anims.isPlaying) {
-                this.play('idle');
+        if(!this.dead){
+            if (this.follow) {
+                if (!this.anims.isPlaying) {
+                    this.play('idle');
+                }
+                if (targetX > this.x + 5) {
+                    this.setVelocityX(this.moveSpeed);
+                } else if (targetX < this.x - 5) {
+                    this.setVelocityX(-this.moveSpeed); 
+                } else {
+                    this.setVelocityX(0);
+                }
+                if (targetY > this.y + 5) {
+                    this.setVelocityY(this.moveSpeed);
+                } else if (targetY < this.y - 5) {
+                    this.setVelocityY(-this.moveSpeed); 
+                } else {
+                    this.setVelocityY(0);
+                }
+                    if (this.follow) {
+                        if (!this.anims.isPlaying) {
+                            this.play('idle');
+                        }
+                        if (targetX > this.x + 5) {
+                            this.setVelocityX(this.moveSpeed);
+                        } else if (targetX < this.x - 5) {
+                            this.setVelocityX(-this.moveSpeed); 
+                        } else {
+                            this.setVelocityX(0)
+                        }
+                        if (targetY > this.y + 5) {
+                            this.setVelocityY(this.moveSpeed);
+                        } else if (targetY < this.y - 5) {
+                            this.setVelocityY(-this.moveSpeed); 
+                        } else {
+                            this.setVelocityY(0);
+                        }
+                    }
             }
-            if (targetX > this.x + 5) {
-                this.setVelocityX(this.moveSpeed);
-            } else if (targetX < this.x - 5) {
-                this.setVelocityX(-this.moveSpeed); 
-            } else {
-                this.setVelocityX(0);
-            }
-            if (targetY > this.y + 5) {
-                this.setVelocityY(this.moveSpeed);
-            } else if (targetY < this.y - 5) {
-                this.setVelocityY(-this.moveSpeed); 
-            } else {
-                this.setVelocityY(0);
-            }
+        } else {
+            this.setVelocityX(0);
+            this.setVelocityY(0);
         }
-        
     }
 
     inverseLerp(point, a, b) {
