@@ -4,9 +4,6 @@ class level1 extends Phaser.Scene {
     }
 
     preload(){
-        // loading sprites
-        this.load.image('square', './assets/testAssets/greenSquare.png');
-
         // Load Json files
         this.load.tilemapTiledJSON('level1', './assets/tiledStuff/tm_level1.json');
         
@@ -16,7 +13,7 @@ class level1 extends Phaser.Scene {
     }
 
     create(){
-        // keyboard initialization
+        // KEYBOARD INITILIZATION ==========================================
         keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
@@ -26,7 +23,7 @@ class level1 extends Phaser.Scene {
         keyB = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.B);
         keyN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.N);
 
-        //Create the tilemap
+        // TILEMAP CREATION ==========================================
         const map = this.add.tilemap('level1');
 
         // add a tileset to the map
@@ -39,16 +36,14 @@ class level1 extends Phaser.Scene {
         this.CollisionLayer.alpha = 0;
         this.objectsLayer = map.getObjectLayer('objectsLayer')['objects'];
 
-        // --- adding objecterinos
-        // adding player related things 
+        // ADDING PLAYER ==========================================
         this.player = new Player(this, game.config.width/8, game.config.height/2, 'leadTut', 0).setScale(playerScale);
         this.player.setSize(this.player.width/2, this.player.height/2);
         this.player.body.setImmovable();
         this.player.body.collideWorldBounds = true;
         this.player.play('leadidle');
 
-        // adding tuts
-        // Adding tuts
+        // SPAWN TUTS BASED ON TILEMAP ==========================================
         this.tuts = [];
         this.tutGroup = this.physics.add.group();
         this.objectsLayer.forEach(object => { // here we are iterating through each object.
@@ -61,34 +56,51 @@ class level1 extends Phaser.Scene {
                 }
             });
 
-        // initializing camera and boundries
+        // INITIALIZE CAMERA AND BOUNDS ==========================================
         this.physics.world.bounds.setTo(0, 0, gameWidth, gameHeight);
         this.cameras.main.setBounds(0, 0, gameWidth, gameHeight);
         this.cameras.main.startFollow(this.player);
 
-        
-        
-
         // Bool for scene transitions
         this.transitioning = false;
-
-        // leave this in for finding indexes of tiles
-        /*this.CollisionLayer.layer.data.forEach((row) => { // here we are iterating through each tile.
-			row.forEach((Tile) => {
-                console.log(Tile.index);
-			})
-		});*/
     }
 
     update(){
         // updating objects
         this.player.update();
-        // this.tut1.update(this.player.x, this.player.y);
-        // this.tut2.update(this.player.x, this.player.y);
-        // this.tut3.update(this.player.x, this.player.y);
-        // this.tut4.update(this.player.x, this.player.y);
 
+        // check for player death if over a pit
+        this.playerDeathCheck();
 
+        // check for tut death if over a pit
+        this.tutDeathCheck();
+
+        // collision handling
+        this.manageTuts();
+
+        // Check for level transition
+        this.levelTransition();
+    }
+
+    createTut(xPos, yPos) {
+        let newTut = new Tut(this, xPos, yPos, 'tut', 0).setScale(playerScale).setSize(this.player.width/2, this.player.height/2);
+        newTut.body.collideWorldBounds = true;
+        this.tutGroup.add(newTut);
+        this.tuts.push(newTut);
+        newTut.play('idle');
+    }
+
+    manageTuts() {
+        // check if any tuts overlap with player 
+        for (let i = 0; i < this.tuts.length; i++) {
+            if(this.physics.overlap(this.player, this.tuts[i]) && !this.tuts[i].follow) {
+                this.tuts[i].follow = true;
+                this.player.birdGroup.push(this.tuts[i]);
+            }
+        }
+    }
+
+    playerDeathCheck(){
         // Player death if over a pit
         if(!this.transitioning && !this.player.dead) this.tile = this.CollisionLayer.getTileAtWorldXY(this.player.x, this.player.y+20);
         if(this.tile != null && !this.player.dead){
@@ -107,7 +119,9 @@ class level1 extends Phaser.Scene {
                 this.scene.restart();
             });
         }
+    }
 
+    tutDeathCheck(){
         // Tut death if over a pit
         for(let i = 0; i < this.player.birdGroup.length; i++) {
             if(!this.transitioning && !this.player.birdGroup[i].dead) this.tile = this.CollisionLayer.getTileAtWorldXY(this.player.birdGroup[i].x, this.player.birdGroup[i].y+20);
@@ -125,7 +139,9 @@ class level1 extends Phaser.Scene {
                 });
             }
         }
+    }
 
+    levelTransition(){
         // Transition to next scene if player is on right of screen
         if(!this.transitioning) {
             if(this.player.x > game.config.width - this.player.width * playerScale * 0.5){
