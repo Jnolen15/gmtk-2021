@@ -13,7 +13,7 @@ class level1 extends Phaser.Scene {
     }
 
     create(){
-        // keyboard initialization
+        // KEYBOARD INITILIZATION ==========================================
         keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
@@ -23,7 +23,7 @@ class level1 extends Phaser.Scene {
         keyB = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.B);
         keyN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.N);
 
-        //Create the tilemap
+        // TILEMAP CREATION ==========================================
         const map = this.add.tilemap('level1');
 
         // add a tileset to the map
@@ -36,15 +36,14 @@ class level1 extends Phaser.Scene {
         this.CollisionLayer.alpha = 0;
         this.objectsLayer = map.getObjectLayer('objectsLayer')['objects'];
 
-        // --- adding objecterinos
-        // adding player related things 
+        // ADDING PLAYER ==========================================
         this.player = new Player(this, game.config.width/8, game.config.height/2, 'leadTut', 0).setScale(playerScale);
         this.player.setSize(this.player.width/2, this.player.height/2);
         this.player.body.setImmovable();
         this.player.body.collideWorldBounds = true;
         this.player.play('leadidle');
 
-        // Adding tuts
+        // SPAWN TUTS BASED ON TILEMAP ==========================================
         this.tuts = [];
         this.tutGroup = this.physics.add.group();
         this.objectsLayer.forEach(object => { // here we are iterating through each object.
@@ -57,48 +56,30 @@ class level1 extends Phaser.Scene {
                 }
             });
 
-        // initializing camera and boundries
+        // INITIALIZE CAMERA AND BOUNDS ==========================================
         this.physics.world.bounds.setTo(0, 0, gameWidth, gameHeight);
         this.cameras.main.setBounds(0, 0, gameWidth, gameHeight);
         this.cameras.main.startFollow(this.player);
 
         // Bool for scene transitions
         this.transitioning = false;
-
-        // leave this in for finding indexes of tiles
-        /*this.CollisionLayer.layer.data.forEach((row) => { // here we are iterating through each tile.
-			row.forEach((Tile) => {
-                console.log(Tile.index);
-			})
-		});*/
     }
 
     update(){
         // updating objects
         this.player.update();
+
         // check for player death if over a pit
         this.playerDeathCheck();
+
         // check for tut death if over a pit
         this.tutDeathCheck();
 
-        // Transition to next scene if player is on right of screen
-        if(!this.transitioning) {
-            if(this.player.x > game.config.width - this.player.width * playerScale * 0.5){
-                this.transitioning = true;
-                console.log("Past");
-                //this.scene.transition({ target: 'level2Scene', duration: 2000 });
-                this.cameras.main.fadeOut(500, 0, 0, 0);
-
-                this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
-                    //this.scene.start('phaser-logo')
-                    this.scene.stop();
-                    this.scene.transition({ target: 'level2Scene', duration: 2000 });
-                })
-            }
-        }
-
         // collision handling
         this.manageTuts();
+
+        // Check for level transition
+        this.levelTransition();
     }
 
     createTut(xPos, yPos) {
@@ -156,6 +137,24 @@ class level1 extends Phaser.Scene {
                     ease: 'Sine.easeOut', 
                     duration: 600,
                 });
+            }
+        }
+    }
+
+    levelTransition(){
+        // Transition to next scene if player is on right of screen
+        if(!this.transitioning) {
+            if(this.player.x > game.config.width - this.player.width * playerScale * 0.5){
+                this.transitioning = true;
+                console.log("Past");
+                //this.scene.transition({ target: 'level2Scene', duration: 2000 });
+                this.cameras.main.fadeOut(500, 0, 0, 0);
+
+                this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
+                    //this.scene.start('phaser-logo')
+                    this.scene.stop();
+                    this.scene.transition({ target: 'level2Scene', duration: 2000 });
+                })
             }
         }
     }
