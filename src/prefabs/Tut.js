@@ -25,16 +25,16 @@ G
             if (!this.anims.isPlaying) {
                 this.play('idle');
             }
-            if (targetX > this.x + 1) {
+            if (targetX > this.x + 5) {
                 this.setVelocityX(this.moveSpeed);
-            } else if (targetX < this.x - 10) {
+            } else if (targetX < this.x - 5) {
                 this.setVelocityX(-this.moveSpeed); 
             } else {
                 this.setVelocityX(0)
             }
-            if (targetY > this.y + 1) {
+            if (targetY > this.y + 5) {
                 this.setVelocityY(this.moveSpeed);
-            } else if (targetY < this.y - 10) {
+            } else if (targetY < this.y - 5) {
                 this.setVelocityY(-this.moveSpeed); 
             } else {
                 this.setVelocityY(0);
