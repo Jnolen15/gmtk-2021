@@ -42,4 +42,17 @@ G
         }
         
     }
+
+    inverseLerp(point, a, b) {
+        if (point >= b) {
+            return 1.0;
+        }
+        else if (point <= a) {
+            return 0.0;
+        }
+        
+        let d = b - a;
+        let f = b - point;
+        return (d - f) / d;
+    }
 }
