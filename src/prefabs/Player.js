@@ -15,11 +15,20 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.velocityY = 0;
 
         // --- Setting Up Connector
+        // connector Grid patterns
+        this.squareFillOrder =  [31, 41, 49, 39, 30, 32, 50, 48];
+        this.lineFillOrder =    [31, 49, 22, 58, 13, 67, 4, 76];
+        // connector Grid settings
+        this.gridSize = 9; // square grid = gridSize * gridSize
+        this.squareSpacing = 50;
+        this.lineSpacing = 15;
         // create array of sprite positions
         this.posArray = [];
         this.playerBasePos;
-        this.setupPosArray(5, 50);
-
+        this.setupPosArray(this.squareSpacing);
+        this.changeFormation("square");
+        // create array to store
+        // testing grid
         this.keyM = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.M);
     }
 
@@ -40,7 +49,11 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
         // TEST
         if (Phaser.Input.Keyboard.JustDown(this.keyM)) {
-            this.setupPosArray(5, 30);
+            if (this.currFormation == "square") {
+                this.changeFormation("line");
+            } else if (this.currFormation == "line") {
+                this.changeFormation("square");
+            }
         }
 
         // adjusting for diagonal movement
@@ -68,7 +81,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.movePosArray();
     }
 
-    setupPosArray(arraySquareSize, spacing) {
+    setupPosArray(spacing) {
         // Delete the old array if it exists
         for (let i = 0; i < this.posArray.length; i++) {
             this.posArray[i].sprite.destroy();
@@ -79,14 +92,15 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             x: this.x,
             y: this.y
         }
-        let halfSize = Phaser.Math.CeilTo(arraySquareSize/2);
-        for(let i = 1; i <= arraySquareSize; i++) {
-            for(let j = 1; j <= arraySquareSize; j++) {
+        let halfSize = Phaser.Math.CeilTo(this.gridSize/2);
+        for(let i = 1; i <= this.gridSize; i++) {
+            for(let j = 1; j <= this.gridSize; j++) {
                 let basePos = {
-                    x: i*spacing + this.playerBasePos.x - halfSize * spacing,
-                    y: j*spacing + this.playerBasePos.y - halfSize * spacing
+                    x: j*spacing + this.playerBasePos.x - halfSize * spacing,
+                    y: i*spacing + this.playerBasePos.y - halfSize * spacing
                 }
                 let currSpritePos = this.scene.add.image(basePos.x, basePos.y, 'testPosMarkers').setScale(.01);
+                currSpritePos.setAlpha(0); // DEBUG
                 this.posArray.push({sprite: currSpritePos, basePosition: basePos});
             }
         }
@@ -96,6 +110,29 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         for (let i = 0; i < this.posArray.length; i++) {
             this.posArray[i].sprite.x = this.posArray[i].basePosition.x - (this.playerBasePos.x - this.x);
             this.posArray[i].sprite.y = this.posArray[i].basePosition.y - (this.playerBasePos.y - this.y);
+        }
+    }
+
+    changeFormation(name) {
+        // DEBUG - clear the current alphas
+        for (let i = 0; i < this.posArray.length; i++) {
+            this.posArray[i].sprite.setAlpha(0);
+        }
+
+        if (name == "square") {
+            this.setupPosArray(this.squareSpacing);
+            for (let i = 0; i < this.squareFillOrder.length; i++) {
+                this.posArray[this.squareFillOrder[i]].sprite.setAlpha(1);
+            }
+            this.currFormation = "square";
+        } else if (name == "line") {
+            this.setupPosArray(this.lineSpacing);
+            for (let i = 0; i < this.lineFillOrder.length; i++) {
+                this.posArray[this.lineFillOrder[i]].sprite.setAlpha(1);
+            }
+            this.currFormation = "line";
+        } else {
+            console.log("ERROR - Unknown formation name");
         }
     }
 }
