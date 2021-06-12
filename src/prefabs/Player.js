@@ -23,6 +23,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.gridSize = 9; // square grid = gridSize * gridSize
         this.squareSpacing = 50;
         this.lineSpacing = 15;
+        this.currRotation = 0;
         // create array of sprite positions
         this.posArray = [];
         this.playerBasePos;
@@ -33,6 +34,8 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         // testing grid
         this.keyM = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.M);
         this.keyE = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
+        this.keyN = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.N);
+        this.keyB = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.B);
     }
 
 
@@ -59,6 +62,13 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             } else if (this.currFormation == "straws") {
                 this.changeFormation("square");
             }
+        }
+
+        if (Phaser.Input.Keyboard.JustDown(this.keyN)) {
+            this.currRotation += .1;
+        }
+        if (Phaser.Input.Keyboard.JustDown(this.keyB)) {
+            this.currRotation -= .1;
         }
 
         // TEST
@@ -103,8 +113,8 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         for(let i = 1; i <= this.gridSize; i++) {
             for(let j = 1; j <= this.gridSize; j++) {
                 let basePos = {
-                    x: j*spacing + this.playerBasePos.x - halfSize * spacing,
-                    y: i*spacing + this.playerBasePos.y - halfSize * spacing
+                    x: j*spacing - halfSize * spacing,
+                    y: i*spacing - halfSize * spacing
                 }
                 let currSpritePos = this.scene.add.image(basePos.x, basePos.y, 'testPosMarkers').setScale(.01);
                 currSpritePos.setAlpha(.2); // DEBUG
@@ -115,8 +125,17 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
     movePosArray() {
         for (let i = 0; i < this.posArray.length; i++) {
-            this.posArray[i].sprite.x = this.posArray[i].basePosition.x - (this.playerBasePos.x - this.x);
-            this.posArray[i].sprite.y = this.posArray[i].basePosition.y - (this.playerBasePos.y - this.y);
+            let posVec = new Phaser.Math.Vector2(   
+                this.posArray[i].basePosition.x, 
+                this.posArray[i].basePosition.y
+            );
+            posVec.rotate(this.currRotation);
+
+            posVec.x += this.playerBasePos.x - (this.playerBasePos.x - this.x);
+            posVec.y += this.playerBasePos.y - (this.playerBasePos.y - this.y);
+
+            this.posArray[i].sprite.x = posVec.x;
+            this.posArray[i].sprite.y = posVec.y;
         }
     }
 
