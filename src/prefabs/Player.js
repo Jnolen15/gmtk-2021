@@ -18,6 +18,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         // connector Grid patterns
         this.squareFillOrder =  [31, 41, 49, 39, 30, 32, 50, 48];
         this.lineFillOrder =    [31, 49, 22, 58, 13, 67, 4, 76];
+        this.strawsFillOrder =  [31, 49, 29, 33, 38, 42, 47, 51];
         // connector Grid settings
         this.gridSize = 9; // square grid = gridSize * gridSize
         this.squareSpacing = 50;
@@ -27,9 +28,11 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.playerBasePos;
         this.setupPosArray(this.squareSpacing);
         this.changeFormation("square");
-        // create array to store
+        // create array to store all birds in current group
+        this.birdGroup = [];
         // testing grid
         this.keyM = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.M);
+        this.keyE = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
     }
 
 
@@ -52,9 +55,13 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             if (this.currFormation == "square") {
                 this.changeFormation("line");
             } else if (this.currFormation == "line") {
+                this.changeFormation("straws");
+            } else if (this.currFormation == "straws") {
                 this.changeFormation("square");
             }
         }
+
+        // TEST
 
         // adjusting for diagonal movement
         if (Math.abs(this.velocityX) > 0 && Math.abs(this.velocityY) > 0) {
@@ -100,7 +107,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
                     y: i*spacing + this.playerBasePos.y - halfSize * spacing
                 }
                 let currSpritePos = this.scene.add.image(basePos.x, basePos.y, 'testPosMarkers').setScale(.01);
-                currSpritePos.setAlpha(0); // DEBUG
+                currSpritePos.setAlpha(.2); // DEBUG
                 this.posArray.push({sprite: currSpritePos, basePosition: basePos});
             }
         }
@@ -113,10 +120,34 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         }
     }
 
+    giveTargetsToBirds() {
+        for (let i = 0; i < this.birdGroup.length; i++) {
+            
+            let xPos; 
+            let yPos;
+            
+            if (this.currFormation == "square") {
+                xPos = this.posArray[this.squareFillOrder[i]].sprite.x;
+                yPos = this.posArray[this.squareFillOrder[i]].sprite.y;
+            } else if (this.currFormation == "line") {
+                xPos = this.posArray[this.lineFillOrder[i]].sprite.x;
+                yPos = this.posArray[this.lineFillOrder[i]].sprite.y;
+            } else if (this.currFormation == "straws") {
+                xPos = this.posArray[this.strawsFillOrder[i]].sprite.x;
+                yPos = this.posArray[this.strawsFillOrder[i]].sprite.y;   
+            } else {
+                console.log("ERROR - not a formation mode");
+                return 0;
+            }
+            
+            this.birdGroup[i].update(xPos,yPos);
+        }
+    }
+
     changeFormation(name) {
         // DEBUG - clear the current alphas
         for (let i = 0; i < this.posArray.length; i++) {
-            this.posArray[i].sprite.setAlpha(0);
+            this.posArray[i].sprite.setAlpha(.2);
         }
 
         if (name == "square") {
@@ -131,6 +162,12 @@ class Player extends Phaser.Physics.Arcade.Sprite {
                 this.posArray[this.lineFillOrder[i]].sprite.setAlpha(1);
             }
             this.currFormation = "line";
+        } else if (name == "straws") {
+            this.setupPosArray(this.squareSpacing);
+            for (let i = 0; i < this.lineFillOrder.length; i++) {
+                this.posArray[this.strawsFillOrder[i]].sprite.setAlpha(1);
+            }
+            this.currFormation = "straws";
         } else {
             console.log("ERROR - Unknown formation name");
         }
