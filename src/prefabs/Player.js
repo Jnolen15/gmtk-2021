@@ -10,7 +10,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         // variables
         this.scene = scene;
         this.dead = false;
-        this.moveSpeed = 300;
+        this.moveSpeed = 200;
         this.diagonalMoveSpeed = Math.round(Math.sqrt(this.moveSpeed ** 2 / 2));
         this.velocityX = 0;
         this.velocityY = 0;

@@ -8,7 +8,7 @@ class level1 extends Phaser.Scene {
         this.load.image('square', './assets/testAssets/greenSquare.png');
 
         // Load Json files
-        this.load.tilemapTiledJSON('level1', './assets/tiledStuff/tm_level1Placeholder.json');
+        this.load.tilemapTiledJSON('level1', './assets/tiledStuff/tm_level1.json');
         
         // Tilesheets
         this.load.image('desert', './assets/tiledStuff/ts_desert.png');
@@ -37,6 +37,7 @@ class level1 extends Phaser.Scene {
         this.desertLayer = map.createLayer('desertLayer', tsDesert, 0, 0);
         this.CollisionLayer = map.createLayer('collisionLayer', tsCollision, 0, 0);
         this.CollisionLayer.alpha = 0;
+        this.objectsLayer = map.getObjectLayer('objectsLayer')['objects'];
 
         // --- adding objecterinos
         // adding player related things 
@@ -47,12 +48,18 @@ class level1 extends Phaser.Scene {
         this.player.play('leadidle');
 
         // adding tuts
+        // Adding tuts
         this.tuts = [];
         this.tutGroup = this.physics.add.group();
-        this.createTut(game.config.width/4, game.config.height/4);
-        this.createTut(game.config.width*3/4, game.config.height/4);
-        this.createTut(game.config.width/4, game.config.height*3/4);
-        this.createTut(game.config.width*3/4, game.config.height*3/4);
+        this.objectsLayer.forEach(object => { // here we are iterating through each object.
+			switch(object.name) {
+                case 'tut':
+                    // Spawn a tut
+                    this.createTut(object.x, object.y);
+                    break;
+                    default: break;
+                }
+            });
 
         // initializing camera and boundries
         this.physics.world.bounds.setTo(0, 0, gameWidth, gameHeight);
