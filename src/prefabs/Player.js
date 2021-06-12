@@ -100,6 +100,17 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.setVelocityX(this.velocityX);
         this.setVelocityY(this.velocityY);
 
+        // animation handling
+        if (Math.abs(this.velocityX) > 0 || Math.abs(this.velocityY) > 0) {
+            if (this.anims.getName() != 'leadwalk') {
+                this.play('leadwalk');
+            }
+        } else {
+            if (this.anims.getName() != 'leadidle') {
+                this.play('leadidle');
+            }
+        }
+
         // resetting velocity
         this.velocityX = 0;
         this.velocityY = 0;
