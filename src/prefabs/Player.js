@@ -23,15 +23,17 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         // connector Grid settings
         this.gridSize = 9; // square grid = gridSize * gridSize
         this.squareSpacing = 50;
-        this.lineSpacing = 15;
+        this.lineSpacing = 30;
         this.currRotation = 0;
+        this.gridAlphaOn = 0.2;
+        this.gridAlphaOff = 0.08;
+        // create array to store all birds in current group
+        this.birdGroup = [];
         // create array of sprite positions
         this.posArray = [];
         this.playerBasePos;
         this.setupPosArray(this.squareSpacing);
         this.changeFormation("square");
-        // create array to store all birds in current group
-        this.birdGroup = [];
         // testing grid
         this.keyG = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.G);
         this.keyM = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.M);
@@ -68,11 +70,11 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             }
         }
 
-        if (Phaser.Input.Keyboard.JustDown(this.keyN)) {
-            this.currRotation += .1;
+        if (this.keyN.isDown) {
+            this.currRotation += .00008 * 180*Math.PI;
         }
-        if (Phaser.Input.Keyboard.JustDown(this.keyB)) {
-            this.currRotation -= .1;
+        if (this.keyB.isDown) {
+            this.currRotation -= .00008 * 180*Math.PI;
         }
         if (Phaser.Input.Keyboard.JustDown(this.keyG)) {
             console.log(this.birdGroup.length);
@@ -98,31 +100,23 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.setVelocityX(this.velocityX);
         this.setVelocityY(this.velocityY);
 
+        // animation handling
+        if (Math.abs(this.velocityX) > 0 || Math.abs(this.velocityY) > 0) {
+            if (this.anims.getName() != 'leadwalk') {
+                this.play('leadwalk');
+            }
+        } else {
+            if (this.anims.getName() != 'leadidle') {
+                this.play('leadidle');
+            }
+        }
+
         // resetting velocity
         this.velocityX = 0;
         this.velocityY = 0;
 
         this.movePosArray();
-
-        for (let i = 0; i < this.birdGroup.length; i++) {
-            let xPos = 0;
-            let yPos = 0;
-            
-            if (this.currFormation == "square") {
-                xPos =  this.posArray[this.squareFillOrder[i]].sprite.x;
-                yPos =  this.posArray[this.squareFillOrder[i]].sprite.y;
-            } else if (this.currFormation == "line") {
-                xPos =  this.posArray[this.lineFillOrder[i]].sprite.x;
-                yPos =  this.posArray[this.lineFillOrder[i]].sprite.y;
-            } else if (this.currFormation == "straws") {
-                xPos =  this.posArray[this.strawsFillOrder[i]].sprite.x;
-                yPos =  this.posArray[this.strawsFillOrder[i]].sprite.y;
-            } else {
-                console.log("ERROR - Not a grid formation")
-            }
-            
-            this.birdGroup[i].update(xPos, yPos);
-        }
+        this.updateTutGroup();
     }
 
     setupPosArray(spacing) {
@@ -144,7 +138,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
                     y: i*spacing - halfSize * spacing
                 }
                 let currSpritePos = this.scene.add.image(basePos.x, basePos.y, 'testPosMarkers').setScale(.01);
-                currSpritePos.setAlpha(.2); // DEBUG
+                currSpritePos.setAlpha(this.gridAlphaOff);
                 this.posArray.push({sprite: currSpritePos, basePosition: basePos});
             }
         }
@@ -193,29 +187,60 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     changeFormation(name) {
         // DEBUG - clear the current alphas
         for (let i = 0; i < this.posArray.length; i++) {
-            this.posArray[i].sprite.setAlpha(.2);
+            this.posArray[i].sprite.setAlpha(this.gridAlphaOff);
+        }
+
+        // check alive-ness of players Tuts
+        for (let i = 0; i < this.birdGroup.length; i++) {
+            if (this.birdGroup[i].dead) {
+                // remove the item if it's no longer active
+                this.birdGroup.splice(i, 1);
+                i--;
+            }
         }
 
         if (name == "square") {
             this.setupPosArray(this.squareSpacing);
             for (let i = 0; i < this.squareFillOrder.length; i++) {
-                this.posArray[this.squareFillOrder[i]].sprite.setAlpha(1);
+                this.posArray[this.squareFillOrder[i]].sprite.setAlpha(this.gridAlphaOn);
             }
             this.currFormation = "square";
         } else if (name == "line") {
             this.setupPosArray(this.lineSpacing);
             for (let i = 0; i < this.lineFillOrder.length; i++) {
-                this.posArray[this.lineFillOrder[i]].sprite.setAlpha(1);
+                this.posArray[this.lineFillOrder[i]].sprite.setAlpha(this.gridAlphaOn);
             }
             this.currFormation = "line";
         } else if (name == "straws") {
             this.setupPosArray(this.squareSpacing);
             for (let i = 0; i < this.lineFillOrder.length; i++) {
-                this.posArray[this.strawsFillOrder[i]].sprite.setAlpha(1);
+                this.posArray[this.strawsFillOrder[i]].sprite.setAlpha(this.gridAlphaOn);
             }
             this.currFormation = "straws";
         } else {
             console.log("ERROR - Unknown formation name");
+        }
+    }
+
+    updateTutGroup() {
+        for (let i = 0; i < this.birdGroup.length; i++) {
+            let xPos = 0;
+            let yPos = 0;
+            
+            if (this.currFormation == "square") {
+                xPos =  this.posArray[this.squareFillOrder[i]].sprite.x;
+                yPos =  this.posArray[this.squareFillOrder[i]].sprite.y;
+            } else if (this.currFormation == "line") {
+                xPos =  this.posArray[this.lineFillOrder[i]].sprite.x;
+                yPos =  this.posArray[this.lineFillOrder[i]].sprite.y;
+            } else if (this.currFormation == "straws") {
+                xPos =  this.posArray[this.strawsFillOrder[i]].sprite.x;
+                yPos =  this.posArray[this.strawsFillOrder[i]].sprite.y;
+            } else {
+                console.log("ERROR - Not a grid formation")
+            }
+            
+            this.birdGroup[i].update(xPos, yPos);
         }
     }
 }

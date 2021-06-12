@@ -23,6 +23,8 @@ class level1 extends Phaser.Scene {
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
         keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
         keyDOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
+        keyB = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.B);
+        keyN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.N);
 
         //Create the tilemap
         const map = this.add.tilemap('level1');
@@ -36,18 +38,21 @@ class level1 extends Phaser.Scene {
         this.CollisionLayer = map.createLayer('collisionLayer', tsCollision, 0, 0);
         this.CollisionLayer.alpha = 0;
 
-        // adding objecterinos
+        // --- adding objecterinos
+        // adding player related things 
         this.player = new Player(this, game.config.width/8, game.config.height/2, 'leadTut', 0).setScale(playerScale);
         this.player.setSize(this.player.width/2, this.player.height/2);
         this.player.body.setImmovable();
+        this.player.body.collideWorldBounds = true;
         this.player.play('leadidle');
 
-        this.tut1 = new Tut(this, game.config.width/4, game.config.height/4, 'tut', 0).setScale(playerScale).setSize(this.player.width/2, this.player.height/2);
-        this.tut2 = new Tut(this, game.config.width*3/4, game.config.height/4, 'tut', 0).setScale(playerScale).setSize(this.player.width/2, this.player.height/2);
-        this.tut3 = new Tut(this, game.config.width/4, game.config.height*3/4, 'tut', 0).setScale(playerScale).setSize(this.player.width/2, this.player.height/2);
-        this.tut4 = new Tut(this, game.config.width*3/4, game.config.height*3/4, 'tut', 0).setScale(playerScale).setSize(this.player.width/2, this.player.height/2);
+        // adding tuts
+        this.tuts = [];
         this.tutGroup = this.physics.add.group();
-        this.tutGroup.addMultiple(this.tut1, this.tut2, this.tut3, this.tut4);
+        this.createTut(game.config.width/4, game.config.height/4);
+        this.createTut(game.config.width*3/4, game.config.height/4);
+        this.createTut(game.config.width/4, game.config.height*3/4);
+        this.createTut(game.config.width*3/4, game.config.height*3/4);
 
         // initializing camera and boundries
         this.physics.world.bounds.setTo(0, 0, gameWidth, gameHeight);
@@ -77,7 +82,7 @@ class level1 extends Phaser.Scene {
         // this.tut4.update(this.player.x, this.player.y);
 
 
-        // Player death if overa pit
+        // Player death if over a pit
         if(!this.transitioning && !this.player.dead) this.tile = this.CollisionLayer.getTileAtWorldXY(this.player.x, this.player.y+20);
         if(this.tile != null && !this.player.dead){
             console.log("Above Pit");
@@ -94,6 +99,24 @@ class level1 extends Phaser.Scene {
             this.time.delayedCall(650, ()=>{
                 this.scene.restart();
             });
+        }
+
+        // Tut death if over a pit
+        for(let i = 0; i < this.player.birdGroup.length; i++) {
+            if(!this.transitioning && !this.player.birdGroup[i].dead) this.tile = this.CollisionLayer.getTileAtWorldXY(this.player.birdGroup[i].x, this.player.birdGroup[i].y+20);
+            if(this.tile != null && !this.player.birdGroup[i].dead){
+                console.log("Tut " + i + " fell into a pit!");
+                this.player.birdGroup[i].dead = true;
+                this.player.birdGroup[i].moveSpeed = 0;
+                this.player.birdGroup[i].x = this.tile.x * 25; this.player.birdGroup[i].y = this.tile.y * 25;
+                this.tweens.add({ 
+                    targets: this.player.birdGroup[i], 
+                    scale: 0,
+                    rotation: 8,
+                    ease: 'Sine.easeOut', 
+                    duration: 600,
+                });
+            }
         }
 
         // Transition to next scene if player is on right of screen
@@ -113,32 +136,23 @@ class level1 extends Phaser.Scene {
         }
 
         // collision handling
-        this.player.body.collideWorldBounds = true;
-        this.tut1.body.collideWorldBounds = true;
-        this.tut2.body.collideWorldBounds = true;
-        this.tut3.body.collideWorldBounds = true;
-        this.tut4.body.collideWorldBounds = true;
-        // this.physics.collide(this.player, this.tutGroup);
-        // this.physics.collide(this.tut1, this.tut2);
-        // this.physics.collide(this.tut1, this.tut3);
-        // this.physics.collide(this.tut1, this.tut4);
-        // this.physics.collide(this.tut2, this.tut3);
-        // this.physics.collide(this.tut2, this.tut4);
-        if (this.physics.overlap(this.player, this.tut1) && !this.tut1.follow) {
-            this.tut1.follow = true;
-            this.player.birdGroup.push(this.tut1);
-        }
-        if (this.physics.overlap(this.player, this.tut2) && !this.tut2.follow) {
-            this.tut2.follow = true;
-            this.player.birdGroup.push(this.tut2);
-        }
-        if (this.physics.overlap(this.player, this.tut3) && !this.tut3.follow) {
-            this.tut3.follow = true;
-            this.player.birdGroup.push(this.tut3);
-        }
-        if (this.physics.overlap(this.player, this.tut4) && !this.tut4.follow) {
-            this.tut4.follow = true;
-            this.player.birdGroup.push(this.tut4);
+        this.manageTuts();
+    }
+
+    createTut(xPos, yPos) {
+        let newTut = new Tut(this, xPos, yPos, 'tut', 0).setScale(playerScale).setSize(this.player.width/2, this.player.height/2);
+        newTut.body.collideWorldBounds = true;
+        this.tutGroup.add(newTut);
+        this.tuts.push(newTut);
+    }
+
+    manageTuts() {
+        // check if any tuts overlap with player 
+        for (let i = 0; i < this.tuts.length; i++) {
+            if(this.physics.overlap(this.player, this.tuts[i]) && !this.tuts[i].follow) {
+                this.tuts[i].follow = true;
+                this.player.birdGroup.push(this.tuts[i]);
+            }
         }
     }
 }
