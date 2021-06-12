@@ -144,6 +144,7 @@ class level1 extends Phaser.Scene {
         newTut.body.collideWorldBounds = true;
         this.tutGroup.add(newTut);
         this.tuts.push(newTut);
+        newTut.play('idle');
     }
 
     manageTuts() {
