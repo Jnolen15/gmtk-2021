@@ -15,13 +15,7 @@ G
     update(targetX, targetY) {
         // setting speed based on distance to target
         this.distance = Phaser.Math.Distance.Between(this.x, this.y, targetX, targetY);
-        if (this.distance >= 100) {
-            this.moveSpeed = 250;
-        } else if (this.distance >= 1){
-            this.moveSpeed = 150;
-        } else {
-            this.moveSpeed = 0;
-        }
+        this.moveSpeed = 300 * this.inverseLerp(this.distance, 1, 100);
 
         // setting velocity based on relative position to target
         if (this.follow) {
@@ -33,7 +27,7 @@ G
             } else if (targetX < this.x - 5) {
                 this.setVelocityX(-this.moveSpeed); 
             } else {
-                this.setVelocityX(0)
+                this.setVelocityX(0);
             }
             if (targetY > this.y + 5) {
                 this.setVelocityY(this.moveSpeed);
