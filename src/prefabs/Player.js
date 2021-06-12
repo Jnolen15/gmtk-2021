@@ -27,13 +27,13 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.currRotation = 0;
         this.gridAlphaOn = 0.2;
         this.gridAlphaOff = 0.08;
+        // create array to store all birds in current group
+        this.birdGroup = [];
         // create array of sprite positions
         this.posArray = [];
         this.playerBasePos;
         this.setupPosArray(this.squareSpacing);
         this.changeFormation("square");
-        // create array to store all birds in current group
-        this.birdGroup = [];
         // testing grid
         this.keyG = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.G);
         this.keyM = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.M);
@@ -177,6 +177,15 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         // DEBUG - clear the current alphas
         for (let i = 0; i < this.posArray.length; i++) {
             this.posArray[i].sprite.setAlpha(this.gridAlphaOff);
+        }
+
+        // check alive-ness of players Tuts
+        for (let i = 0; i < this.birdGroup.length; i++) {
+            if (this.birdGroup[i].dead) {
+                // remove the item if it's no longer active
+                this.birdGroup.splice(i, 1);
+                i--;
+            }
         }
 
         if (name == "square") {
