@@ -9,6 +9,7 @@ class load extends Phaser.Scene {
         this.load.image('testPosMarkers', './assets/testAssets/blueSquare.png');
         this.load.image('testTut', './assets/testAssets/redSquare.png');
         this.load.atlas('tut', './assets/animations/anim_idle.png', './assets/animations/anim_idle.json');
+        this.load.atlas('leadTut', './assets/animations/anim_lead_idle.png', './assets/animations/anim_lead_idle.json');
     }
 
     create(){
@@ -21,6 +22,19 @@ class load extends Phaser.Scene {
               end: 3,
               zeroPad: 1,
               prefix: 'idletut',
+              suffix: '.png'
+            }),
+            frameRate: 8,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'leadidle',
+            frames: this.anims.generateFrameNames('leadTut', {
+              start: 1,
+              end: 3,
+              zeroPad: 1,
+              prefix: 'leadidle',
               suffix: '.png'
             }),
             frameRate: 8,

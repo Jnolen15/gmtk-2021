@@ -37,10 +37,10 @@ class level1 extends Phaser.Scene {
         //CollisionLayer.alpha = 0;
 
         // adding objecterinos
-        this.player = new Player(this, game.config.width/2, game.config.height/2, 'tut', 0).setScale(playerScale);
+        this.player = new Player(this, game.config.width/2, game.config.height/2, 'leadTut', 0).setScale(playerScale);
         this.player.setSize(this.player.width/2, this.player.height/2);
         this.player.body.setImmovable();
-        this.player.play('idle');
+        this.player.play('leadidle');
 
         this.tut1 = new Tut(this, game.config.width/4, game.config.height/4, 'tut', 0).setScale(playerScale).setSize(this.player.width/2, this.player.height/2);
         this.tut2 = new Tut(this, game.config.width*3/4, game.config.height/4, 'tut', 0).setScale(playerScale).setSize(this.player.width/2, this.player.height/2);

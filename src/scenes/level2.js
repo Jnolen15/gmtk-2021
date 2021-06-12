@@ -33,10 +33,10 @@ class level2 extends Phaser.Scene {
         //CollisionLayer.alpha = 0;
 
         // adding objecterinos
-        this.player = new Player(this, game.config.width/2, game.config.height/2, 'tut', 0).setScale(playerScale);
+        this.player = new Player(this, game.config.width/2, game.config.height/2, 'leadTut', 0).setScale(playerScale);
         this.player.setSize(this.player.width/2, this.player.height/2);
         this.player.body.setImmovable();
-        this.player.play('idle');
+        this.player.play('leadidle');
 
         // initializing camera and boundries
         this.physics.world.bounds.setTo(0, 0, gameWidth, gameHeight);
