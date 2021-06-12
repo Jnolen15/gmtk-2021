@@ -71,10 +71,10 @@ class level1 extends Phaser.Scene {
     update(){
         // updating objects
         this.player.update();
-        this.tut1.update(this.player.x, this.player.y);
-        this.tut2.update(this.player.x, this.player.y);
-        this.tut3.update(this.player.x, this.player.y);
-        this.tut4.update(this.player.x, this.player.y);
+        // this.tut1.update(this.player.x, this.player.y);
+        // this.tut2.update(this.player.x, this.player.y);
+        // this.tut3.update(this.player.x, this.player.y);
+        // this.tut4.update(this.player.x, this.player.y);
 
 
         if(!this.transitioning) this.tile = this.CollisionLayer.getTileAtWorldXY(this.player.x, this.player.y);
@@ -110,17 +110,21 @@ class level1 extends Phaser.Scene {
         this.physics.collide(this.tut1, this.tut4);
         this.physics.collide(this.tut2, this.tut3);
         this.physics.collide(this.tut2, this.tut4);
-        if (this.physics.collide(this.player, this.tut1)) {
+        if (this.physics.collide(this.player, this.tut1) && !this.tut1.follow) {
             this.tut1.follow = true;
+            this.player.birdGroup.push(this.tut1);
         }
-        if (this.physics.collide(this.player, this.tut2)) {
+        if (this.physics.collide(this.player, this.tut2) && !this.tut2.follow) {
             this.tut2.follow = true;
+            this.player.birdGroup.push(this.tut2);
         }
-        if (this.physics.collide(this.player, this.tut3)) {
+        if (this.physics.collide(this.player, this.tut3) && !this.tut3.follow) {
             this.tut3.follow = true;
+            this.player.birdGroup.push(this.tut3);
         }
-        if (this.physics.collide(this.player, this.tut4)) {
+        if (this.physics.collide(this.player, this.tut4) && !this.tut4.follow) {
             this.tut4.follow = true;
+            this.player.birdGroup.push(this.tut4);
         }
     }
 }

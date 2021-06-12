@@ -25,16 +25,16 @@ class Tut extends Phaser.Physics.Arcade.Sprite {
             if (!this.anims.isPlaying) {
                 this.play('idle');
             }
-            if (playerX > this.x + 10) {
+            if (playerX > this.x + 1) {
                 this.setVelocityX(this.moveSpeed);
-            } else if (playerX < this.x - 10) {
+            } else if (playerX < this.x - 1) {
                 this.setVelocityX(-this.moveSpeed); 
             } else {
                 this.setVelocityX(0)
             }
-            if (playerY > this.y + 10) {
+            if (playerY > this.y + 1) {
                 this.setVelocityY(this.moveSpeed);
-            } else if (playerY < this.y - 10) {
+            } else if (playerY < this.y - 1) {
                 this.setVelocityY(-this.moveSpeed); 
             } else {
                 this.setVelocityY(0);

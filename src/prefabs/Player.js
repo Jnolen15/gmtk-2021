@@ -32,6 +32,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         // create array to store all birds in current group
         this.birdGroup = [];
         // testing grid
+        this.keyG = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.G);
         this.keyM = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.M);
         this.keyE = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
         this.keyN = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.N);
@@ -70,6 +71,9 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         if (Phaser.Input.Keyboard.JustDown(this.keyB)) {
             this.currRotation -= .1;
         }
+        if (Phaser.Input.Keyboard.JustDown(this.keyG)) {
+            console.log(this.birdGroup.length);
+        }
 
         // TEST
 
@@ -96,6 +100,26 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.velocityY = 0;
 
         this.movePosArray();
+
+        for (let i = 0; i < this.birdGroup.length; i++) {
+            let xPos = 0;
+            let yPos = 0;
+            
+            if (this.currFormation == "square") {
+                xPos =  this.posArray[this.squareFillOrder[i]].sprite.x;
+                yPos =  this.posArray[this.squareFillOrder[i]].sprite.y;
+            } else if (this.currFormation == "line") {
+                xPos =  this.posArray[this.lineFillOrder[i]].sprite.x;
+                yPos =  this.posArray[this.lineFillOrder[i]].sprite.y;
+            } else if (this.currFormation == "straws") {
+                xPos =  this.posArray[this.strawsFillOrder[i]].sprite.x;
+                yPos =  this.posArray[this.strawsFillOrder[i]].sprite.y;
+            } else {
+                console.log("ERROR - Not a grid formation")
+            }
+            
+            this.birdGroup[i].update(xPos, yPos);
+        }
     }
 
     setupPosArray(spacing) {
