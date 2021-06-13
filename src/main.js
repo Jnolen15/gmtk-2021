@@ -23,6 +23,8 @@ let keyF, keyR, keyLEFT, keyRIGHT, keyUP, keyDOWN, keyB, keyN;
 
 // gameplay variables
 let level = "level1";
+let levels = ["level1", "level2", "level3", "level4", "level5", "level6"];
+let levelnum = 0;
 let tutNumber = 0;
 
 // graphics variables

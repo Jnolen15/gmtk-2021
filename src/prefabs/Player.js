@@ -21,7 +21,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.lineFillOrder =    [31, 49, 22, 58, 13, 67, 4, 76];
         // connector Grid settings
         this.gridSize = 9; // square grid = gridSize * gridSize
-        this.squareSpacing = 50;
+        this.squareSpacing = 35;
         this.lineSpacing = 30;
         this.currRotation = 0;
         this.gridAlphaOn = 0;
