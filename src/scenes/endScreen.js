@@ -25,7 +25,7 @@ class endScreen extends Phaser.Scene {
         this.cameras.main.fadeIn(500, 0, 0, 0);
 
         // adding in text
-        this.add.text(game.config.width * 30/100, game.config.height * 85/100, (tutNumber + 1) + ' tuts survived the migration', textConfig).setOrigin(0.5, 0.5);
+        this.add.text(game.config.width * 30/100, game.config.height * 85/100, (tutNumber + 1) + '/9 tuts survived the migration', textConfig).setOrigin(0.5, 0.5);
     }
 
     update() {
