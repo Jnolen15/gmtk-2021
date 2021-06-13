@@ -59,6 +59,9 @@ class level1 extends Phaser.Scene {
                 }
             });
 
+        // carying over tuts from previous level
+        this.spawnPreviousTuts();
+
         // INITIALIZE CAMERA AND BOUNDS ==========================================
         this.physics.world.bounds.setTo(0, 0, gameWidth, gameHeight);
         this.cameras.main.setBounds(0, 0, gameWidth, gameHeight);
@@ -105,6 +108,7 @@ class level1 extends Phaser.Scene {
             if(this.physics.overlap(this.player, this.tuts[i]) && !this.tuts[i].follow) {
                 this.tuts[i].follow = true;
                 this.player.birdGroup.push(this.tuts[i]);
+                tutNumber += 1;
             }
         }
     }
@@ -134,7 +138,7 @@ class level1 extends Phaser.Scene {
         // Tut death if over a pit
         for(let i = 0; i < this.player.birdGroup.length; i++) {
             if(!transitioning && !this.player.birdGroup[i].dead) this.tile = this.CollisionLayer.getTileAtWorldXY(this.player.birdGroup[i].x, this.player.birdGroup[i].y+20);
-            if(this.tile != null && !this.player.birdGroup[i].dead){
+            if(this.tile != null && !this.player.birdGroup[i].dead) {
                 console.log("Tut " + i + " fell into a pit!");
                 this.player.birdGroup[i].dead = true;
                 this.player.birdGroup[i].moveSpeed = 0;
@@ -146,6 +150,7 @@ class level1 extends Phaser.Scene {
                     ease: 'Sine.easeOut', 
                     duration: 600,
                 });
+            tutNumber -= 1;
             }
         }
     }
@@ -179,14 +184,11 @@ class level1 extends Phaser.Scene {
         newTut.play('idle');
     }
 
-    manageTuts() {
-        // check if any tuts overlap with player 
-        for (let i = 0; i < this.tuts.length; i++) {
-            if(this.physics.overlap(this.player, this.tuts[i]) && !this.tuts[i].follow) {
-                this.tuts[i].follow = true;
-                this.player.birdGroup.push(this.tuts[i]);
-            }
+    spawnPreviousTuts() {
+        for (var i = 0; i < tutNumber; i++) {
+            this.createTut(this.player.x, this.player.y);
         }
+        tutNumber = 0;
     }
 
     restartCheck() {
@@ -194,6 +196,8 @@ class level1 extends Phaser.Scene {
             this.cameras.main.fadeOut(500, 0, 0, 0);
 
             this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
+                tutNumber = 0;
+                level = 'level1';
                 this.scene.restart();
             })
         }
