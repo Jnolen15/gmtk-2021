@@ -16,14 +16,14 @@ class load extends Phaser.Scene {
         this.load.atlas('leadTut', './assets/animations/anim_lead_idle.png', './assets/animations/anim_lead_idle.json');
         this.load.atlas('leadTutWalk', './assets/animations/anim_lead_walk.png', './assets/animations/anim_lead_walk.json');
         // loading audio
-        this.load.audio('Conclusion', './assets/Narration/Conclusion.wav');
-        this.load.audio('HereIsALeader', './assets/Narration/HereIsALeader.wav');
-        this.load.audio('Intro', './assets/Narration/Intro.wav');
-        this.load.audio('LifeSpan', './assets/Narration/LifeSpan.wav');
-        this.load.audio('ThereGoesAnotherOne', './assets/Narration/ThereGoesAnotherOne.wav');
-        this.load.audio('TutsAreCarniverous', './assets/Narration/TutsAreCarniverous.wav');
-        this.load.audio('WhenUnderground', './assets/Narration/WhenUnderground.wav');
-        this.load.audio('Wind', './assets/Narration/Intro.wav');
+        this.load.audio('conclusion', './assets/Narration/Conclusion.wav');
+        this.load.audio('hereIsALeader', './assets/Narration/HereIsALeader.wav');
+        this.load.audio('intro', './assets/Narration/Intro.wav');
+        this.load.audio('lifeSpan', './assets/Narration/LifeSpan.wav');
+        this.load.audio('thereGoesAnotherOne', './assets/Narration/ThereGoesAnotherOne.wav');
+        this.load.audio('tutsAreCarniverous', './assets/Narration/TutsAreCarniverous.wav');
+        this.load.audio('whenUnderground', './assets/Narration/WhenUnderground.wav');
+        this.load.audio('wind', './assets/sfx/NewWind.wav');
     }
 
     create(){
