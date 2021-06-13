@@ -60,6 +60,7 @@ class level1 extends Phaser.Scene {
             });
 
         // carying over tuts from previous level
+        this.levelStartTuts = tutNumber;
         this.spawnPreviousTuts();
 
         // INITIALIZE CAMERA AND BOUNDS ==========================================
@@ -128,9 +129,11 @@ class level1 extends Phaser.Scene {
                 ease: 'Sine.easeOut', 
                 duration: 600,
             });
-            this.time.delayedCall(650, ()=>{
-                this.scene.restart();
-            });
+            this.cameras.main.fadeOut(650, 0, 0, 0);
+            this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
+                tutNumber = this.levelStartTuts;
+                this.scene.restart();        
+            })
         }
     }
 
