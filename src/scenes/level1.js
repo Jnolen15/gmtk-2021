@@ -121,6 +121,7 @@ class level1 extends Phaser.Scene {
                 this.tuts[i].follow = true;
                 this.player.birdGroup.push(this.tuts[i]);
                 tutNumber += 1;
+                this.sound.play('chirp' + Phaser.Math.Between(1, 3), {volume: 0.2});
             }
         }
     }
