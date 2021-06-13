@@ -8,11 +8,11 @@ let config = {
     physics: {
         default: 'arcade',
         arcade: {
-            debug: true,
+            debug: false,
             gravity: {y: 0},
         }
     },
-    scene: [load, menu, level1, level2],
+    scene: [load, menu, level1],
 }
 
 //define game
@@ -22,6 +22,7 @@ let game = new Phaser.Game(config);
 let keyF, keyR, keyLEFT, keyRIGHT, keyUP, keyDOWN, keyB, keyN;
 
 // gameplay variables
+let level = "level1";
 
 // graphics variables
 let playerScale = 0.5;

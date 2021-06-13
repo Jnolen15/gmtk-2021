@@ -5,10 +5,11 @@ class level1 extends Phaser.Scene {
 
     preload(){
         // Load Json files
-        this.load.tilemapTiledJSON('level1', './assets/tiledStuff/tm_level1.json');
+        this.load.tilemapTiledJSON(level, './assets/tiledStuff/tm_' + level + '.json');
         
         // Tilesheets
         this.load.image('desert', './assets/tiledStuff/ts_desert.png');
+        this.load.image('decor', './assets/tiledStuff/ts_decor.png');
         this.load.image('collision', './assets/tiledStuff/tm_collision.png');
     }
 
@@ -24,14 +25,16 @@ class level1 extends Phaser.Scene {
         keyN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.N);
 
         // TILEMAP CREATION ==========================================
-        const map = this.add.tilemap('level1');
+        const map = this.add.tilemap(level);
 
         // add a tileset to the map
         const tsDesert = map.addTilesetImage('ts_desert', 'desert');
+        const tsdecor = map.addTilesetImage('ts_decor', 'decor');
         const tsCollision = map.addTilesetImage('tm_collision', 'collision');
 
         // create tilemap layers
         this.desertLayer = map.createLayer('desertLayer', tsDesert, 0, 0);
+        this.desertLayer = map.createLayer('decorLayer', tsdecor, 0, 0);
         this.CollisionLayer = map.createLayer('collisionLayer', tsCollision, 0, 0);
         this.CollisionLayer.alpha = 0;
         this.objectsLayer = map.getObjectLayer('objectsLayer')['objects'];
@@ -61,6 +64,9 @@ class level1 extends Phaser.Scene {
         this.cameras.main.setBounds(0, 0, gameWidth, gameHeight);
         this.cameras.main.startFollow(this.player);
         this.cameras.main.fadeIn(500, 0, 0, 0);
+
+        // ADD UI ASSETS
+        this.cameraUICover = this.add.image(0,0,'cameraUICover').setOrigin(0,0).setDepth(game.config.height + 1); 
 
         // Bool for scene transitions
         transitioning = false;
@@ -154,10 +160,8 @@ class level1 extends Phaser.Scene {
                 this.cameras.main.fadeOut(500, 0, 0, 0);
 
                 this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
-                    //this.scene.start('phaser-logo')
-                    this.scene.stop();
-                    this.scene.start('level2Scene');
-                    // this.scene.transition({ target: 'level2Scene', duration: 2000 });        
+                    level = 'level2';
+                    this.scene.restart();        
                 })
             }
         }
@@ -190,9 +194,7 @@ class level1 extends Phaser.Scene {
             this.cameras.main.fadeOut(500, 0, 0, 0);
 
             this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
-                //this.scene.start('phaser-logo')
-                this.scene.stop();
-                this.scene.start('level1Scene');     
+                this.scene.restart();
             })
         }
     }
