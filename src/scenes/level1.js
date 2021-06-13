@@ -76,6 +76,9 @@ class level1 extends Phaser.Scene {
         this.clouds = this.add.tileSprite(0,0, game.config.width, game.config.height,'clouds').setOrigin(0,0).setDepth(game.config.height + 1); 
         this.clouds.tilePositionX = Phaser.Math.Between(0, 1200);
 
+        // START IMPORTANT AUDIO
+        this.startAudio();
+
         // Bool for scene transitions
         transitioning = false;
     }
@@ -177,6 +180,7 @@ class level1 extends Phaser.Scene {
                 this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
                     levelnum++;
                     level = levels[levelnum];
+                    this.stopAllAudio();
                     this.scene.restart();        
                 })
             }
@@ -210,8 +214,35 @@ class level1 extends Phaser.Scene {
                 tutNumber = 0;
                 level = 'level1';
                 levelnum = 0;
+                this.stopAllAudio();
                 this.scene.restart();
             })
+        }
+    }
+
+    startAudio() {
+        // Ambient wind sound effects
+        this.audio_wind = this.sound.add('wind', {volume: 0.1, loop: true});
+        this.audio_wind.play();
+
+        if (level == 'level1') {
+            // Narration Intro
+            this.narration = this.sound.add('intro', {volume: 1, loop: false});
+            this.narration.play();
+        } else if (level == 'level3') {
+            // Here is a leader now
+            this.narration = this.sound.add('hereIsALeader', {volume: 1, loop: false});
+            this.narration.play();
+        }
+    }
+
+    stopAllAudio() {
+        this.audio_wind.stop();
+        if (level == 'level1') {
+            this.narration.stop();
+        } else if (level == 'level3') {
+            // Here is a leader now
+            this.narration.stop();
         }
     }
 }
