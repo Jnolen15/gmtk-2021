@@ -53,5 +53,19 @@ class level2 extends Phaser.Scene {
     update(){
         // updating objects
         this.player.update();
+
+        this.restartCheck();
+    }
+
+    restartCheck() {
+        if (Phaser.Input.Keyboard.JustDown(keyR) && !transitioning) {
+            this.cameras.main.fadeOut(500, 0, 0, 0);
+
+            this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
+                //this.scene.start('phaser-logo')
+                this.scene.stop();
+                this.scene.start('level1Scene');     
+            })
+        }
     }
 }

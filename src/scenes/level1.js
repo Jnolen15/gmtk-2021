@@ -81,6 +81,8 @@ class level1 extends Phaser.Scene {
 
         // Check for level transition
         this.levelTransition();
+
+        this.restartCheck();
     }
 
     createTut(xPos, yPos) {
@@ -180,6 +182,18 @@ class level1 extends Phaser.Scene {
                 this.tuts[i].follow = true;
                 this.player.birdGroup.push(this.tuts[i]);
             }
+        }
+    }
+
+    restartCheck() {
+        if (Phaser.Input.Keyboard.JustDown(keyR) && !transitioning) {
+            this.cameras.main.fadeOut(500, 0, 0, 0);
+
+            this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
+                //this.scene.start('phaser-logo')
+                this.scene.stop();
+                this.scene.start('level1Scene');     
+            })
         }
     }
 }
