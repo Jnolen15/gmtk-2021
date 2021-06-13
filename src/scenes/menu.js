@@ -22,6 +22,9 @@ class menu extends Phaser.Scene {
 
         // Start scene
         this.menuImage = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'menu').setOrigin(0, 0);
+   
+        // adding in text
+        this.add.text(game.config.width * 30/100, game.config.height * 85/100, 'Press any arrow key to start', textConfig).setOrigin(0.5, 0.5);
     }
 
     update() {
