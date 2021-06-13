@@ -5,7 +5,7 @@ class level1 extends Phaser.Scene {
 
     preload(){
         // Load Json files
-        this.load.tilemapTiledJSON('level1', './assets/tiledStuff/tm_level1.json');
+        this.load.tilemapTiledJSON(level, './assets/tiledStuff/tm_' + level + '.json');
         
         // Tilesheets
         this.load.image('desert', './assets/tiledStuff/ts_desert.png');
@@ -25,7 +25,7 @@ class level1 extends Phaser.Scene {
         keyN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.N);
 
         // TILEMAP CREATION ==========================================
-        const map = this.add.tilemap('level1');
+        const map = this.add.tilemap(level);
 
         // add a tileset to the map
         const tsDesert = map.addTilesetImage('ts_desert', 'desert');
@@ -160,10 +160,8 @@ class level1 extends Phaser.Scene {
                 this.cameras.main.fadeOut(500, 0, 0, 0);
 
                 this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
-                    //this.scene.start('phaser-logo')
-                    this.scene.stop();
-                    this.scene.start('level2Scene');
-                    // this.scene.transition({ target: 'level2Scene', duration: 2000 });        
+                    level = 'level2';
+                    this.scene.restart();        
                 })
             }
         }
@@ -196,9 +194,7 @@ class level1 extends Phaser.Scene {
             this.cameras.main.fadeOut(500, 0, 0, 0);
 
             this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
-                //this.scene.start('phaser-logo')
-                this.scene.stop();
-                this.scene.start('level1Scene');     
+                this.scene.restart();
             })
         }
     }
