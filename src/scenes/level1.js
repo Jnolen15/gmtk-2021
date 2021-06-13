@@ -125,7 +125,7 @@ class level1 extends Phaser.Scene {
                 this.tuts[i].follow = true;
                 this.player.birdGroup.push(this.tuts[i]);
                 tutNumber += 1;
-                this.sound.play('chirp' + Phaser.Math.Between(1, 3), {volume: 0.2});
+                this.sound.play('chirp' + Phaser.Math.Between(1, 3), {volume: 0.1});
             }
         }
     }
@@ -145,6 +145,7 @@ class level1 extends Phaser.Scene {
                 ease: 'Sine.easeOut', 
                 duration: 600,
             });
+            this.sound.play('falling', {volume: 0.1});
             this.cameras.main.fadeOut(650, 0, 0, 0);
             this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
                 tutNumber = this.levelStartTuts;
@@ -171,6 +172,7 @@ class level1 extends Phaser.Scene {
                 });
                 tutNumber -= 1;
                 this.tutDiedThisFrame = true;
+                this.sound.play('falling', {volume: 0.1});
             }
         }
     }
