@@ -9,6 +9,7 @@ class level1 extends Phaser.Scene {
         
         // Tilesheets
         this.load.image('desert', './assets/tiledStuff/ts_desert.png');
+        this.load.image('decor', './assets/tiledStuff/ts_decor.png');
         this.load.image('collision', './assets/tiledStuff/tm_collision.png');
     }
 
@@ -28,10 +29,12 @@ class level1 extends Phaser.Scene {
 
         // add a tileset to the map
         const tsDesert = map.addTilesetImage('ts_desert', 'desert');
+        const tsdecor = map.addTilesetImage('ts_decor', 'decor');
         const tsCollision = map.addTilesetImage('tm_collision', 'collision');
 
         // create tilemap layers
         this.desertLayer = map.createLayer('desertLayer', tsDesert, 0, 0);
+        this.desertLayer = map.createLayer('decorLayer', tsdecor, 0, 0);
         this.CollisionLayer = map.createLayer('collisionLayer', tsCollision, 0, 0);
         this.CollisionLayer.alpha = 0;
         this.objectsLayer = map.getObjectLayer('objectsLayer')['objects'];
