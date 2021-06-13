@@ -26,6 +26,10 @@ class menu extends Phaser.Scene {
    
         // adding in text
         this.add.text(game.config.width * 30/100, game.config.height * 85/100, 'Press any arrow key to start', textConfig).setOrigin(0.5, 0.5);
+    
+        // fade in (for game restart)
+        this.cameras.main.fadeIn(500, 0, 0, 0);
+        transitioning = false;
     }
 
     update() {
@@ -37,6 +41,7 @@ class menu extends Phaser.Scene {
                 //this.scene.start('phaser-logo')
                 this.scene.stop();
                 this.scene.start('level1Scene');
+                // this.scene.start('endScene');
             })
         }
     }

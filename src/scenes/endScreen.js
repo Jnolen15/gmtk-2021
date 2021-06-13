@@ -24,9 +24,11 @@ class endScreen extends Phaser.Scene {
         // Start scene
         this.menuImage = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'menu').setOrigin(0, 0);
         this.cameras.main.fadeIn(500, 0, 0, 0);
+        transitioning = false;
 
         // adding in text
         this.add.text(game.config.width * 30/100, game.config.height * 85/100, (tutNumber + 1) + '/9 tuts survived the migration', textConfig).setOrigin(0.5, 0.5);
+        this.add.text(game.config.width * 30/100, game.config.height * 92/100, 'press r to return to the menu', textConfig).setOrigin(0.5, 0.5);
     }
 
     update() {
@@ -34,14 +36,15 @@ class endScreen extends Phaser.Scene {
     }
 
     restartCheck() {
-        if (Phaser.Input.Keyboard.JustDown(keyR)) {
+        if (Phaser.Input.Keyboard.JustDown(keyR) && !transitioning) {
+            transitioning = true;
             this.cameras.main.fadeOut(500, 0, 0, 0);
 
             this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
                 tutNumber = 0;
                 level = 'level1';
                 levelnum = 0;
-                this.scene.play('menuScene');
+                this.scene.start('menuScene');
             })
         }
     }
