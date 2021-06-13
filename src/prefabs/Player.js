@@ -248,13 +248,21 @@ class Player extends Phaser.Physics.Arcade.Sprite {
                 console.log("ERROR - Not a grid formation")
             }
 
+            
             if (!this.birdGroup[i].repositioning) {
+                // manage their animations
                 if (this.anims.getName() == 'leadwalk' && this.birdGroup[i].anims.getName() != "walk") {
                     this.birdGroup[i].play('walk');
                 } else if (this.anims.getName() == 'leadidle' && this.birdGroup[i].anims.getName() != "idle") {
                     this.birdGroup[i].play('idle');
                 }
+
+                // manage their flip direction
+                this.birdGroup[i].flipX = this.flipX;
             }
+
+            
+
             
             this.birdGroup[i].update(xPos, yPos);
         }
