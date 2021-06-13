@@ -74,6 +74,7 @@ class level1 extends Phaser.Scene {
 
         // ADD SCROLLING CLOUDS ==========================================
         this.clouds = this.add.tileSprite(0,0, game.config.width, game.config.height,'clouds').setOrigin(0,0).setDepth(game.config.height + 1); 
+        this.clouds.tilePositionX = Phaser.Math.Between(0, 1200);
 
         // Bool for scene transitions
         transitioning = false;
