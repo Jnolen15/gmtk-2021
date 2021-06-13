@@ -29,6 +29,10 @@ class endScreen extends Phaser.Scene {
         // adding in text
         this.add.text(game.config.width * 30/100, game.config.height * 85/100, (tutNumber + 1) + '/9 tuts survived the migration', textConfig).setOrigin(0.5, 0.5);
         this.add.text(game.config.width * 30/100, game.config.height * 92/100, 'press r to return to the menu', textConfig).setOrigin(0.5, 0.5);
+
+        // Conclution 
+        this.narration = this.sound.add('conclusion', {volume: 1, loop: false});
+        this.narration.play();
     }
 
     update() {
