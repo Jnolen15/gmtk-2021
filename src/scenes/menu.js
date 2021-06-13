@@ -25,7 +25,7 @@ class menu extends Phaser.Scene {
     }
 
     update() {
-        if(Phaser.Input.Keyboard.JustDown(keyRIGHT) && !transitioning) {
+        if((Phaser.Input.Keyboard.JustDown(keyRIGHT) || Phaser.Input.Keyboard.JustDown(keyLEFT) || Phaser.Input.Keyboard.JustDown(keyUP) || Phaser.Input.Keyboard.JustDown(keyDOWN))&& !transitioning) {
             transitioning = true;
             this.cameras.main.fadeOut(500, 0, 0, 0);
 
