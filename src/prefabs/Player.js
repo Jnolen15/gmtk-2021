@@ -35,10 +35,10 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.changeFormation("square");
         // testing grid
         this.keyG = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.G);
-        this.keyM = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.M);
+        this.keySPACE = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.keyE = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
-        this.keyN = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.N);
-        this.keyB = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.B);
+        this.keyD = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+        this.keyA = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
     }
 
 
@@ -61,7 +61,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         }
 
         // TEST
-        if (Phaser.Input.Keyboard.JustDown(this.keyM)) {
+        if (Phaser.Input.Keyboard.JustDown(this.keySPACE)) {
             if (this.currFormation == "square") {
                 this.changeFormation("line");
             } else if (this.currFormation == "line") {
@@ -69,10 +69,10 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             }
         }
 
-        if (this.keyN.isDown) {
+        if (this.keyD.isDown) {
             this.currRotation += .00006 * 180*Math.PI;
         }
-        if (this.keyB.isDown) {
+        if (this.keyA.isDown) {
             this.currRotation -= .00006 * 180*Math.PI;
         }
         if (Phaser.Input.Keyboard.JustDown(this.keyG)) {

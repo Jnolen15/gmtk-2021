@@ -19,7 +19,7 @@ let config = {
 let game = new Phaser.Game(config);
 
 // defining keys
-let keyF, keyR, keyLEFT, keyRIGHT, keyUP, keyDOWN, keyB, keyN;
+let keyLEFT, keyRIGHT, keyUP, keyDOWN, keyB, keyN, keyM, keyF, keyR, keyA, keyD, keySPACE;
 
 // gameplay variables
 let level = "level1";

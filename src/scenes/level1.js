@@ -15,14 +15,15 @@ class level1 extends Phaser.Scene {
 
     create(){
         // KEYBOARD INITILIZATION ==========================================
-        keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
-        keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
         keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
         keyDOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
+        keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
+        keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
         keyB = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.B);
         keyN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.N);
+        keyM = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.M);  
 
         // TILEMAP CREATION ==========================================
         const map = this.add.tilemap(level);
