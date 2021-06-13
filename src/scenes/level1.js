@@ -63,7 +63,7 @@ class level1 extends Phaser.Scene {
         this.cameras.main.fadeIn(500, 0, 0, 0);
 
         // Bool for scene transitions
-        this.transitioning = false;
+        transitioning = false;
     }
 
     update(){
@@ -154,8 +154,8 @@ class level1 extends Phaser.Scene {
                 this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
                     //this.scene.start('phaser-logo')
                     this.scene.stop();
-                    transitioning = false;
-                    this.scene.transition({ target: 'level2Scene', duration: 2000 });        
+                    this.scene.start('level2Scene');
+                    // this.scene.transition({ target: 'level2Scene', duration: 2000 });        
                 })
             }
         }

@@ -62,6 +62,7 @@ class Tut extends Phaser.Physics.Arcade.Sprite {
             this.setVelocityY(0);
         }
 
+        // animation handling
         if (Math.abs(this.body.velocity.x) > 50 || Math.abs(this.body.velocity.y) > 50) {
             if (this.anims.getName() != 'walk') {
                 this.play('walk');
@@ -71,6 +72,11 @@ class Tut extends Phaser.Physics.Arcade.Sprite {
                 this.play('idle');
             }
         }
+        if (this.body.velocity.x > 0 && this.flipX == true) {
+            this.flipX = false;
+        } else if (this.body.velocity.x < 0 && this.flipX == false) {
+            this.flipX = true;
+        }   
     }
 
     inverseLerp(point, a, b) {
