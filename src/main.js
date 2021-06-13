@@ -12,7 +12,7 @@ let config = {
             gravity: {y: 0},
         }
     },
-    scene: [load, menu, level1],
+    scene: [load, menu, level1, endScreen],
 }
 
 //define game

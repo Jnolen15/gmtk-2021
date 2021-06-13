@@ -177,7 +177,11 @@ class level1 extends Phaser.Scene {
                 this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
                     levelnum++;
                     level = levels[levelnum];
-                    this.scene.restart();        
+                    if (levelnum < 6) {
+                        this.scene.restart();     
+                    } else {
+                        this.scene.start('endScene');
+                    } 
                 })
             }
         }
