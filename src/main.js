@@ -53,3 +53,4 @@ let textConfig = {
 
 // narration variables
 let currNarration = "";
+let countedDeaths = 0;
