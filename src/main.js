@@ -50,3 +50,6 @@ let textConfig = {
     },
     width: 100
 }
+
+// narration variables
+let currNarration = "";

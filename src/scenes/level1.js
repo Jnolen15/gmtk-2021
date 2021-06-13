@@ -231,19 +231,26 @@ class level1 extends Phaser.Scene {
         this.audio_wind.play();
 
         if (level == 'level1') {
-            // Narration Intro
-            this.narration = this.sound.add('intro', {volume: 1, loop: false});
-            this.narration.play();
+            if (currNarration != "intro") {
+                // Narration Intro
+                this.narration = this.sound.add('intro', {volume: 1, loop: false});
+                this.narration.play();
+                currNarration = "intro";
+            }
         } else if (level == 'level3') {
-            // Here is a leader now
-            this.narration = this.sound.add('hereIsALeader', {volume: 1, loop: false});
-            this.narration.play();
+            if (currNarration != "hereIsALeader") {
+                // Here is a leader now
+                this.narration = this.sound.add('hereIsALeader', {volume: 1, loop: false});
+                this.narration.play();
+                currNarration = "hereIsALeader";
+            }
         }
     }
 
     stopAllAudio() {
         this.audio_wind.stop();
-        if (level == 'level1') {
+        if (level == 'level2') {
+            // Narration Intro
             this.narration.stop();
         } else if (level == 'level3') {
             // Here is a leader now
