@@ -9,7 +9,7 @@ class load extends Phaser.Scene {
         this.load.image('testPosMarkers', './assets/testAssets/blueSquare.png');
         this.load.image('testTut', './assets/testAssets/redSquare.png');
         this.load.image('cameraUICover', './assets/UI/CameraUICover.png');
-        this.load.image('clouds', './assets/Clouds.png');
+        this.load.image('clouds', './assets/UI/Clouds.png');
         // loading sprite atlasses
         this.load.atlas('tut', './assets/animations/anim_idle.png', './assets/animations/anim_idle.json');
         this.load.atlas('tutWalk', './assets/animations/anim_tutwalk.png', './assets/animations/anim_tutwalk.json');
