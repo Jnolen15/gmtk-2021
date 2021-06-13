@@ -81,11 +81,12 @@ class level1 extends Phaser.Scene {
         this.startAudio();
         this.tutDiedThisFrame = false;
 
-        // Bool for scene transitions
+        // Bool for scene transitions, also timer
         transitioning = false;
+        this.sceneDuration = 0;
     }
 
-    update(){
+    update(time, delta){
         // updating objects
         this.player.update();
 
@@ -95,8 +96,9 @@ class level1 extends Phaser.Scene {
         // check for tut death if over a pit
         this.tutDeathCheck();
 
-        // scrolling clouds
+        // scrolling clouds, incrementing timer
         this.clouds.tilePositionX += .5;
+        this.sceneDuration += delta;
 
         // collision handling
         this.manageTuts();
@@ -107,6 +109,7 @@ class level1 extends Phaser.Scene {
         // Check for level transition
         this.levelTransition();
 
+        // option for restart
         this.restartCheck();
     }
 
@@ -125,7 +128,9 @@ class level1 extends Phaser.Scene {
                 this.tuts[i].follow = true;
                 this.player.birdGroup.push(this.tuts[i]);
                 tutNumber += 1;
-                this.sound.play('chirp' + Phaser.Math.Between(1, 3), {volume: 0.1});
+                if (this.sceneDuration >= 500) {
+                    this.sound.play('chirp' + Phaser.Math.Between(1, 3), {volume: 0.1});
+                }
             }
         }
     }
