@@ -5,7 +5,7 @@ class menu extends Phaser.Scene {
 
     preload(){
         // loading sprites
-        this.load.image('menu', './assets/MenuPage.png');
+        this.load.image('menu', './assets/UI/MenuPage.png');
         
     }
 
