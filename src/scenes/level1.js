@@ -62,6 +62,9 @@ class level1 extends Phaser.Scene {
         this.cameras.main.startFollow(this.player);
         this.cameras.main.fadeIn(500, 0, 0, 0);
 
+        // ADD UI ASSETS
+        this.cameraUICover = this.add.image(0,0,'cameraUICover').setOrigin(0,0).setDepth(game.config.height + 1); 
+
         // Bool for scene transitions
         transitioning = false;
     }

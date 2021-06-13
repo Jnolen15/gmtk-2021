@@ -25,8 +25,8 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.squareSpacing = 50;
         this.lineSpacing = 30;
         this.currRotation = 0;
-        this.gridAlphaOn = 0.2;
-        this.gridAlphaOff = 0.08;
+        this.gridAlphaOn = 0;
+        this.gridAlphaOff = 0;
         // create array to store all birds in current group
         this.birdGroup = [];
         // create array of sprite positions
@@ -44,6 +44,8 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
 
     update() {
+        this.setDepth(this.y);
+        
         if(!this.dead){
             if (keyRIGHT.isDown) {
                 this.velocityX += this.moveSpeed;
@@ -77,7 +79,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             this.currRotation -= .00008 * 180*Math.PI;
         }
         if (Phaser.Input.Keyboard.JustDown(this.keyG)) {
-            console.log(this.birdGroup.length);
+            console.log(this.depth);
         }
 
         // TEST
