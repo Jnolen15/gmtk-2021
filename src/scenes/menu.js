@@ -25,7 +25,7 @@ class menu extends Phaser.Scene {
         this.menuImage = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'menu').setOrigin(0, 0);
    
         // adding in text
-        this.add.text(game.config.width * 30/100, game.config.height * 85/100, 'Press any arrow key to start', textConfig).setOrigin(0.5, 0.5);
+        this.add.text(game.config.width * 30/100, game.config.height * 85/100, 'Press any arrow key to start.\n Best experienced with audio on.', textConfig).setOrigin(0.5, 0.5);
     
         // fade in (for game restart)
         this.cameras.main.fadeIn(500, 0, 0, 0);
