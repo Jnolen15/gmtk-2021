@@ -234,9 +234,21 @@ class level1 extends Phaser.Scene {
             // Narration Intro
             this.narration = this.sound.add('intro', {volume: 1, loop: false});
             this.narration.play();
+        } else if (level == 'level2') {
+            // when Underground
+            this.narration = this.sound.add('whenUnderground', {volume: 1, loop: false});
+            this.narration.play();
         } else if (level == 'level3') {
             // Here is a leader now
             this.narration = this.sound.add('hereIsALeader', {volume: 1, loop: false});
+            this.narration.play();
+        } else if (level == 'level4') {
+            // life Span
+            this.narration = this.sound.add('lifeSpan', {volume: 1, loop: false});
+            this.narration.play();
+        } else if (level == 'level5') {
+            // tuts Are Carniverous
+            this.narration = this.sound.add('tutsAreCarniverous', {volume: 1, loop: false});
             this.narration.play();
         }
     }
