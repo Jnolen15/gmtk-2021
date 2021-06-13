@@ -8,7 +8,7 @@ class Tut extends Phaser.Physics.Arcade.Sprite {
         scene.physics.add.existing(this);
 
         this.scene = scene;
-        this.moveSpeed = 200;
+        this.moveSpeed = 150;
         this.repositioning = true;
         this.dead = false;
 
@@ -21,7 +21,7 @@ class Tut extends Phaser.Physics.Arcade.Sprite {
         
         // setting speed based on distance to target
         this.distance = Phaser.Math.Distance.Between(this.x, this.y, targetX, targetY);
-        this.moveSpeed = 140 * this.inverseLerp(this.distance, 0, 120) + 60;
+        this.moveSpeed = 90 * this.inverseLerp(this.distance, 0, 120) + 60;
 
         // setting velocity based on relative position to target
         if(!this.dead) {

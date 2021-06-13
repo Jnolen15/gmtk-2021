@@ -36,7 +36,6 @@ class menu extends Phaser.Scene {
                 //this.scene.start('phaser-logo')
                 this.scene.stop();
                 this.scene.start('level1Scene');
-                // this.scene.transition({ target: 'level1Scene', duration: 2000 });
             })
         }
     }
