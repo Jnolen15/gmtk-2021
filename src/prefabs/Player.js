@@ -10,7 +10,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         // variables
         this.scene = scene;
         this.dead = false;
-        this.moveSpeed = 200;
+        this.moveSpeed = 150;
         this.diagonalMoveSpeed = Math.round(Math.sqrt(this.moveSpeed ** 2 / 2));
         this.velocityX = 0;
         this.velocityY = 0;
@@ -70,10 +70,10 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         }
 
         if (this.keyN.isDown) {
-            this.currRotation += .00008 * 180*Math.PI;
+            this.currRotation += .00006 * 180*Math.PI;
         }
         if (this.keyB.isDown) {
-            this.currRotation -= .00008 * 180*Math.PI;
+            this.currRotation -= .00006 * 180*Math.PI;
         }
         if (Phaser.Input.Keyboard.JustDown(this.keyG)) {
             console.log(this.depth);
