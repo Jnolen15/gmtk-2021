@@ -150,7 +150,7 @@ class level1 extends Phaser.Scene {
                 ease: 'Sine.easeOut', 
                 duration: 600,
             });
-            this.sound.play('falling', {volume: 0.1});
+            this.sound.play('falling', {volume: 0.2});
             this.cameras.main.fadeOut(650, 0, 0, 0);
             this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
                 tutNumber = this.levelStartTuts;
@@ -177,7 +177,7 @@ class level1 extends Phaser.Scene {
                 });
                 tutNumber -= 1;
                 this.tutDiedThisFrame = true;
-                this.sound.play('falling', {volume: 0.1});
+                this.sound.play('falling', {volume: 0.15});
             }
         }
     }
