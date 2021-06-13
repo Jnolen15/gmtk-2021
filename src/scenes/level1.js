@@ -69,8 +69,11 @@ class level1 extends Phaser.Scene {
         this.cameras.main.startFollow(this.player);
         this.cameras.main.fadeIn(500, 0, 0, 0);
 
-        // ADD UI ASSETS
-        this.cameraUICover = this.add.image(0,0,'cameraUICover').setOrigin(0,0).setDepth(game.config.height + 1); 
+        // ADD UI ASSETS ==========================================
+        this.cameraUICover = this.add.image(0,0,'cameraUICover').setOrigin(0,0).setDepth(game.config.height + 2); 
+
+        // ADD SCROLLING CLOUDS ==========================================
+        this.clouds = this.add.tileSprite(0,0, game.config.width, game.config.height,'clouds').setOrigin(0,0).setDepth(game.config.height + 1); 
 
         // Bool for scene transitions
         transitioning = false;
@@ -85,6 +88,9 @@ class level1 extends Phaser.Scene {
 
         // check for tut death if over a pit
         this.tutDeathCheck();
+
+        // scrolling clouds
+        this.clouds.tilePositionX += .5;
 
         // collision handling
         this.manageTuts();
