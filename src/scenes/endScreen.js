@@ -1,6 +1,6 @@
-class menu extends Phaser.Scene {
+class endScreen extends Phaser.Scene {
     constructor() {
-        super("menuScene");
+        super("endScene");
     }
 
     preload(){
@@ -32,8 +32,7 @@ class menu extends Phaser.Scene {
             this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
                 //this.scene.start('phaser-logo')
                 this.scene.stop();
-                this.scene.start('level1Scene');
-                // this.scene.transition({ target: 'level1Scene', duration: 2000 });
+                this.scene.start('menuScene');
             })
         }
     }
