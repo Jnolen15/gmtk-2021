@@ -19,7 +19,6 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         // connector Grid patterns
         this.squareFillOrder =  [31, 41, 49, 39, 30, 32, 50, 48];
         this.lineFillOrder =    [31, 49, 22, 58, 13, 67, 4, 76];
-        this.strawsFillOrder =  [31, 49, 29, 33, 38, 42, 47, 51];
         // connector Grid settings
         this.gridSize = 9; // square grid = gridSize * gridSize
         this.squareSpacing = 50;
@@ -66,8 +65,6 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             if (this.currFormation == "square") {
                 this.changeFormation("line");
             } else if (this.currFormation == "line") {
-                this.changeFormation("straws");
-            } else if (this.currFormation == "straws") {
                 this.changeFormation("square");
             }
         }
@@ -178,9 +175,6 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             } else if (this.currFormation == "line") {
                 xPos = this.posArray[this.lineFillOrder[i]].sprite.x;
                 yPos = this.posArray[this.lineFillOrder[i]].sprite.y;
-            } else if (this.currFormation == "straws") {
-                xPos = this.posArray[this.strawsFillOrder[i]].sprite.x;
-                yPos = this.posArray[this.strawsFillOrder[i]].sprite.y;   
             } else {
                 console.log("ERROR - not a formation mode");
                 return 0;
@@ -219,12 +213,6 @@ class Player extends Phaser.Physics.Arcade.Sprite {
                 this.posArray[this.lineFillOrder[i]].sprite.setAlpha(this.gridAlphaOn);
             }
             this.currFormation = "line";
-        } else if (name == "straws") {
-            this.setupPosArray(this.squareSpacing);
-            for (let i = 0; i < this.lineFillOrder.length; i++) {
-                this.posArray[this.strawsFillOrder[i]].sprite.setAlpha(this.gridAlphaOn);
-            }
-            this.currFormation = "straws";
         } else {
             console.log("ERROR - Unknown formation name");
         }
@@ -241,9 +229,6 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             } else if (this.currFormation == "line") {
                 xPos =  this.posArray[this.lineFillOrder[i]].sprite.x;
                 yPos =  this.posArray[this.lineFillOrder[i]].sprite.y;
-            } else if (this.currFormation == "straws") {
-                xPos =  this.posArray[this.strawsFillOrder[i]].sprite.x;
-                yPos =  this.posArray[this.strawsFillOrder[i]].sprite.y;
             } else {
                 console.log("ERROR - Not a grid formation")
             }
