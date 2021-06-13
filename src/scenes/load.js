@@ -68,7 +68,7 @@ class load extends Phaser.Scene {
         });
 
         // Start scene
-        this.scene.start('level1Scene');
+        this.scene.start('menuScene');
 
     }
 }

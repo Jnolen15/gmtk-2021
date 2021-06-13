@@ -12,7 +12,7 @@ let config = {
             gravity: {y: 0},
         }
     },
-    scene: [load, level1, level2],
+    scene: [load, menu, level1, level2],
 }
 
 //define game
@@ -27,6 +27,22 @@ let keyF, keyR, keyLEFT, keyRIGHT, keyUP, keyDOWN, keyB, keyN;
 let playerScale = 0.5;
 let gameWidth = 800;
 let gameHeight = 600;
+let transitioning = false;
 
 // Volume variables
 let volumeMultiplier = 1;
+
+// font for the text
+let textConfig = {
+    fontFamily: 'Monotype Corsiva',
+    fontSize: '36px',
+    color: '#000',
+    stroke: '#000',
+    strokeThickness: 2,
+    align: 'center',
+    padding: {
+        top: 5,
+        bottom: 5,
+    },
+    width: 100
+}

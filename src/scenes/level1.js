@@ -60,6 +60,7 @@ class level1 extends Phaser.Scene {
         this.physics.world.bounds.setTo(0, 0, gameWidth, gameHeight);
         this.cameras.main.setBounds(0, 0, gameWidth, gameHeight);
         this.cameras.main.startFollow(this.player);
+        this.cameras.main.fadeIn(500, 0, 0, 0);
 
         // Bool for scene transitions
         this.transitioning = false;
@@ -102,7 +103,7 @@ class level1 extends Phaser.Scene {
 
     playerDeathCheck(){
         // Player death if over a pit
-        if(!this.transitioning && !this.player.dead) this.tile = this.CollisionLayer.getTileAtWorldXY(this.player.x, this.player.y+20);
+        if(!transitioning && !this.player.dead) this.tile = this.CollisionLayer.getTileAtWorldXY(this.player.x, this.player.y+20);
         if(this.tile != null && !this.player.dead){
             console.log("Above Pit");
             console.log("Tile X: " + this.tile.x*25 + " Tile Y: " + this.tile.y*25);
@@ -124,7 +125,7 @@ class level1 extends Phaser.Scene {
     tutDeathCheck(){
         // Tut death if over a pit
         for(let i = 0; i < this.player.birdGroup.length; i++) {
-            if(!this.transitioning && !this.player.birdGroup[i].dead) this.tile = this.CollisionLayer.getTileAtWorldXY(this.player.birdGroup[i].x, this.player.birdGroup[i].y+20);
+            if(!transitioning && !this.player.birdGroup[i].dead) this.tile = this.CollisionLayer.getTileAtWorldXY(this.player.birdGroup[i].x, this.player.birdGroup[i].y+20);
             if(this.tile != null && !this.player.birdGroup[i].dead){
                 console.log("Tut " + i + " fell into a pit!");
                 this.player.birdGroup[i].dead = true;
@@ -143,9 +144,9 @@ class level1 extends Phaser.Scene {
 
     levelTransition(){
         // Transition to next scene if player is on right of screen
-        if(!this.transitioning) {
+        if(!transitioning) {
             if(this.player.x > game.config.width - this.player.width * playerScale * 0.5){
-                this.transitioning = true;
+                transitioning = true;
                 console.log("Past");
                 //this.scene.transition({ target: 'level2Scene', duration: 2000 });
                 this.cameras.main.fadeOut(500, 0, 0, 0);
@@ -153,7 +154,8 @@ class level1 extends Phaser.Scene {
                 this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
                     //this.scene.start('phaser-logo')
                     this.scene.stop();
-                    this.scene.transition({ target: 'level2Scene', duration: 2000 });
+                    transitioning = false;
+                    this.scene.transition({ target: 'level2Scene', duration: 2000 });        
                 })
             }
         }
