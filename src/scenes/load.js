@@ -24,6 +24,7 @@ class load extends Phaser.Scene {
         this.load.audio('tutsAreCarniverous', './assets/Narration/TutsAreCarniverous.wav');
         this.load.audio('whenUnderground', './assets/Narration/WhenUnderground.wav');
         this.load.audio('wind', './assets/sfx/NewWind.wav');
+        this.load.audio('step', './assets/sfx/Sand_Step.wav');
     }
 
     create(){

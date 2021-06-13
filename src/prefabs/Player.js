@@ -39,6 +39,10 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.keyE = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
         this.keyD = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
         this.keyA = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+
+        // Walking sound
+        this.step = this.scene.sound.add('step', {volume: 0, loop: true});
+        this.step.play();
     }
 
 
@@ -57,7 +61,14 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             }
             if (keyUP.isDown) {
                 this.velocityY -= this.moveSpeed;
+            } 
+            if(keyRIGHT.isDown || keyLEFT.isDown || keyUP.isDown || keyDOWN.isDown){
+                this.step.volume = 0.2;
+            } else {
+                this.step.volume = 0;
             }
+        } else {
+            this.step.volume = 0;
         }
 
         // TEST
