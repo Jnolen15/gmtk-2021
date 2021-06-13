@@ -110,6 +110,11 @@ class Player extends Phaser.Physics.Arcade.Sprite {
                 this.play('leadidle');
             }
         }
+        if (this.velocityX > 0 && this.flipX == true) {
+            this.setFlipX(false);
+        } else if (this.velocitX < 0 && this.flipX == false) {
+            this.setFlipX(true);
+        }   
 
         // resetting velocity
         this.velocityX = 0;

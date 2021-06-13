@@ -46,6 +46,8 @@ class level2 extends Phaser.Scene {
         // Fade in Scene
         this.cameras.main.fadeIn(500, 0, 0, 0);
 
+        transitioning = false;
+
     }
 
     update(){
