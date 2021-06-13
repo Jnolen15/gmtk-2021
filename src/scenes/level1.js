@@ -79,6 +79,7 @@ class level1 extends Phaser.Scene {
 
         // START IMPORTANT AUDIO
         this.startAudio();
+        this.tutDiedThisFrame = false;
 
         // Bool for scene transitions
         transitioning = false;
@@ -99,6 +100,9 @@ class level1 extends Phaser.Scene {
 
         // collision handling
         this.manageTuts();
+
+        // accounting for random death narration
+        this.checkAndStartDeathNarration();
 
         // Check for level transition
         this.levelTransition();
@@ -164,7 +168,8 @@ class level1 extends Phaser.Scene {
                     ease: 'Sine.easeOut', 
                     duration: 600,
                 });
-            tutNumber -= 1;
+                tutNumber -= 1;
+                this.tutDiedThisFrame = true;
             }
         }
     }
@@ -262,6 +267,22 @@ class level1 extends Phaser.Scene {
             this.narration = this.sound.add(key, {volume: 1, loop: false});
             this.narration.play();
             currNarration = key;
+        }
+    }
+
+    checkAndStartDeathNarration() {
+        if (countedDeaths == 0 && this.tutDiedThisFrame && !this.narration.isPlaying) {
+            this.sound.play('thereGoesAnotherOne');
+            countedDeaths++;
+        } else if (this.tutDiedThisFrame && !this.narration.isPlaying) {
+            countedDeaths++;
+            console.log("incrementing counted deaths");
+        }
+
+        this.tutDiedThisFrame = false;
+
+        if (countedDeaths > 3) {
+            countedDeaths = 0;
         }
     }
 }
