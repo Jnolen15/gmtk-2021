@@ -229,25 +229,19 @@ class level1 extends Phaser.Scene {
         this.audio_wind.play();
 
         if (level == 'level1') {
-            // Narration Intro
-            this.narration = this.sound.add('intro', {volume: 1, loop: false});
-            this.narration.play();
+            this.checkAndStartNarration('intro');
         } else if (level == 'level2') {
             // when Underground
-            this.narration = this.sound.add('whenUnderground', {volume: 1, loop: false});
-            this.narration.play();
+            this.checkAndStartNarration('whenUnderground');
         } else if (level == 'level3') {
             // Here is a leader now
-            this.narration = this.sound.add('hereIsALeader', {volume: 1, loop: false});
-            this.narration.play();
+            this.checkAndStartNarration('hereIsALeader');
         } else if (level == 'level4') {
             // life Span
-            this.narration = this.sound.add('lifeSpan', {volume: 1, loop: false});
-            this.narration.play();
+            this.checkAndStartNarration('lifeSpan');
         } else if (level == 'level5') {
             // tuts Are Carniverous
-            this.narration = this.sound.add('tutsAreCarniverous', {volume: 1, loop: false});
-            this.narration.play();
+            this.checkAndStartNarration('tutsAreCarniverous');
         }
     }
 
@@ -259,6 +253,15 @@ class level1 extends Phaser.Scene {
         } else if (level == 'level3') {
             // Here is a leader now
             this.narration.stop();
+        }
+    }
+
+    checkAndStartNarration(key) {
+        if (currNarration != key) {
+            // Narration Intro
+            this.narration = this.sound.add(key, {volume: 1, loop: false});
+            this.narration.play();
+            currNarration = key;
         }
     }
 }
