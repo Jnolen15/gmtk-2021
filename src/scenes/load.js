@@ -15,6 +15,8 @@ class load extends Phaser.Scene {
         this.load.atlas('tutWalk', './assets/Animations/anim_tutwalk.png', './assets/Animations/anim_tutwalk.json');
         this.load.atlas('leadTut', './assets/Animations/anim_lead_idle.png', './assets/Animations/anim_lead_idle.json');
         this.load.atlas('leadTutWalk', './assets/Animations/anim_lead_walk.png', './assets/Animations/anim_lead_walk.json');
+        // loading subtitles
+        this.load.json('subtitles', './assets/Narration/subtitles.json');
         // loading audio
         this.load.audio('conclusion', './assets/Narration/Conclusion.wav');
         this.load.audio('hereIsALeader', './assets/Narration/HereIsALeader.wav');

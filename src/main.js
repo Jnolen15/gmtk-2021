@@ -36,6 +36,11 @@ let transitioning = false;
 // Volume variables
 let volumeMultiplier = 1;
 
+// narration variables
+let currNarration = "";
+let currSubtitles = 0;
+let countedDeaths = 0;
+
 // font for the text
 let textConfig = {
     fontFamily: 'Monotype Corsiva',
@@ -51,6 +56,18 @@ let textConfig = {
     width: 100
 }
 
-// narration variables
-let currNarration = "";
-let countedDeaths = 0;
+let subtitleConfig = {
+    fontFamily: 'Courier',
+    fontSize: '24px',
+    color: 'white',
+    align: 'center',
+    stroke: 'black',
+    strokeThickness: 6,
+    fill: 'white',
+    padding: {
+    top: 5,
+    bottom: 5,
+    },
+    wordWrap: {width: 800, useAdvancedWrap: true},
+    fixedWidth: 0
+}

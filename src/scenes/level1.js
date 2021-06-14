@@ -103,6 +103,9 @@ class level1 extends Phaser.Scene {
         // collision handling
         this.manageTuts();
 
+        // Check if subtitles should be ended
+        this.updateSubtitles();
+        
         // accounting for random death narration
         this.checkAndStartDeathNarration();
 
@@ -240,11 +243,18 @@ class level1 extends Phaser.Scene {
         this.audio_wind = this.sound.add('wind', {volume: 0.1, loop: true});
         this.audio_wind.play();
 
+        // LOAD SUBTITLE JSON
+        this.subtitle = this.cache.json.get('subtitles');
+
+        // Play correct audio basd on level
         if (level == 'level1') {
             this.checkAndStartNarration('intro');
+            //currSubtitles = this.subtitle.intro[0];
+            this.checkAndStartSubtitles(this.subtitle.intro, [3000, 8000, 11000, 14000, 16000, 18500, 23500, 26000, 30500, 34000]);
         } else if (level == 'level2') {
             // when Underground
             this.checkAndStartNarration('whenUnderground');
+            this.checkAndStartSubtitles(this.subtitle.whenUnderground);
         } else if (level == 'level3') {
             // Here is a leader now
             this.checkAndStartNarration('hereIsALeader');
@@ -270,6 +280,24 @@ class level1 extends Phaser.Scene {
             this.narration = this.sound.add(key, {volume: 1, loop: false});
             this.narration.play();
             currNarration = key;
+        }
+    }
+
+    updateSubtitles(){
+        // Stop subtitles if narration is over
+        if (!this.narration.isPlaying) {
+            this.subtitleText.alpha = 0;
+        }
+    }
+    
+    checkAndStartSubtitles(key, times) {
+        this.subtitleText = this.add.text(this.game.config.width / 2, this.game.config.height - 80, key[0], subtitleConfig).setOrigin(0.5);
+        this.subtitleText.alpha = 1;
+        for(let i = 1; i < key.length; i++){
+            console.log("setting timer for " + times[i-1]);
+            this.pause = this.time.delayedCall(times[i-1], () => { 
+                this.subtitleText.setText(key[i]);
+            }, null, this);
         }
     }
 
