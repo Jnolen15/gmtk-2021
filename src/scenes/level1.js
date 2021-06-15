@@ -1,3 +1,15 @@
+class sceneManager extends Phaser.Scene {
+    constructor() {
+        super("sceneManagerScene");
+    }
+    create(){
+        // START LEVEL SCENE
+        this.scene.launch("level1Scene");
+        // START NARRATION SCENE
+        this.scene.launch("narrationScene");
+    }
+}
+
 class level1 extends Phaser.Scene {
     constructor() {
         super("level1Scene");
@@ -77,13 +89,12 @@ class level1 extends Phaser.Scene {
         this.clouds = this.add.tileSprite(0,0, game.config.width, game.config.height,'clouds').setOrigin(0,0).setDepth(game.config.height + 1); 
         this.clouds.tilePositionX = Phaser.Math.Between(0, 1200);
 
-        // START IMPORTANT AUDIO
-        this.startAudio();
-        this.tutDiedThisFrame = false;
-
         // Bool for scene transitions, also timer
         transitioning = false;
         this.sceneDuration = 0;
+
+        // GET ACCESS TO NARRATION SCENE
+        this.narrationScene = this.scene.get('narrationScene');
     }
 
     update(time, delta){
@@ -102,12 +113,6 @@ class level1 extends Phaser.Scene {
 
         // collision handling
         this.manageTuts();
-
-        // Check if subtitles should be ended
-        this.updateSubtitles();
-        
-        // accounting for random death narration
-        this.checkAndStartDeathNarration();
 
         // Check for level transition
         this.levelTransition();
@@ -179,7 +184,7 @@ class level1 extends Phaser.Scene {
                     duration: 600,
                 });
                 tutNumber -= 1;
-                this.tutDiedThisFrame = true;
+                this.narrationScene.tutDiedThisFrame = true;
                 this.sound.play('falling', {volume: 0.15});
             }
         }
@@ -198,7 +203,8 @@ class level1 extends Phaser.Scene {
                     levelnum++;
                     level = levels[levelnum];
                     if (levelnum < 6) {
-                        this.stopAllAudio();
+                        this.narrationScene.stopAllAudio();
+                        this.narrationScene.restart();
                         this.scene.restart();     
                     } else {
                         this.scene.start('endScene');
@@ -236,6 +242,27 @@ class level1 extends Phaser.Scene {
                 this.scene.restart();
             })
         }
+    }
+}
+
+class narration extends Phaser.Scene {
+    constructor() {
+        super("narrationScene");
+    }
+
+    create(){
+        // START IMPORTANT AUDIO
+        this.startAudio();
+        this.tutDiedThisFrame = false;
+        console.log("HERE");
+    }
+
+    update(){
+        // Check if subtitles should be ended
+        this.updateSubtitles();
+                
+        // accounting for random death narration
+        this.checkAndStartDeathNarration();
     }
 
     startAudio() {
@@ -315,5 +342,9 @@ class level1 extends Phaser.Scene {
         if (countedDeaths > 3) {
             countedDeaths = 0;
         }
+    }
+
+    restart(){
+        this.scene.restart();
     }
 }

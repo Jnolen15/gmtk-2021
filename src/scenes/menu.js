@@ -40,7 +40,7 @@ class menu extends Phaser.Scene {
             this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
                 //this.scene.start('phaser-logo')
                 this.scene.stop();
-                this.scene.start('level1Scene');
+                this.scene.start('sceneManagerScene');
                 // this.scene.start('endScene');
             })
         }
