@@ -321,7 +321,6 @@ class narration extends Phaser.Scene {
         this.subtitleText = this.add.text(this.game.config.width / 2, this.game.config.height - 80, key[0], subtitleConfig).setOrigin(0.5);
         this.subtitleText.alpha = 1;
         for(let i = 1; i < key.length; i++){
-            console.log("setting timer for " + times[i-1]);
             this.pause = this.time.delayedCall(times[i-1], () => { 
                 this.subtitleText.setText(key[i]);
             }, null, this);
